@@ -67,9 +67,11 @@ DROP TABLE IF EXISTS t_log_login;
 CREATE TABLE t_log_login (
     logId INT AUTO_INCREMENT PRIMARY KEY,
     loginName NVARCHAR(16) NOT NULL,
-    loginIP NVARCHAR(16) NOT NULL,
+    loginIp NVARCHAR(16) NOT NULL,
     loginDate DATETIME DEFAULT NOW()
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO t_log_login VALUES (1, 'admin', '127.0.0.1', '2021-05-20 17:39:35');
 
 DROP TABLE IF EXISTS t_result_type;
 CREATE TABLE t_result_type (

@@ -10,21 +10,18 @@ import java.util.Date;
 /**
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
  * @version 1.0.0
- * @class Log_verify
- * @date 2021/5/10 15:23
- * @description t_log_verify
+ * @class LogLogin
+ * @date 2021/5/20 17:33
+ * @description t_log_login
  */
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class Log_verify {
-    Integer verifyId;
-    Integer resId;
-    /**审核状态，0申请，1通过，2拒绝*/
-    Integer verifyType;
-    String verifyDesc;
-    Integer adminId;
-    Date verifyDate;
+public class LogLogin {
+    Integer logId;
+    String loginName;
+    String loginIp;
+    Date loginDate;
 }

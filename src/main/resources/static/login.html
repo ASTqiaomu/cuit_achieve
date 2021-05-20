@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <title>教师成果管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="iconfont/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery-3.5.0.js"></script>
+</head>
+<script>
+    var username = null, password = null, data = null;
+    var usr_is_err = true, pwd_is_err = true;
+
+    function login() {
+        if (!usr_is_err && !pwd_is_err) {
+            data = {username: username, password: password};
+            $.ajax({
+                type: "POST",
+                url: "login",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify(data),
+                async: false,
+                success: function (msg) {   //账号密码正确，并且账号状态启用
+                    if (msg === 1) {
+                        window.location.href = "index.html";
+                    } else if (msg === 0) {   //账号密码正确，但是账号状态禁用
+                        alert("账号被禁用，请联系管理员!");
+                        document.getElementById("password").value = "";
+                        document.getElementById("err-password").style.visibility = "hidden";
+                        pwd_is_err = true;
+                        checkAll();
+                    }
+                }
+            });
+        } else {
+            alert("请检查账号密码");
+        }
+    }
+
+    /*光标处于输入密码框，按回车登录 begin*/
+    $("#password").bind("keyup", function (e) {
+        //event.preventDefault() 方法阻止元素发生默认的行为。
+        if (e.key === "Enter") {
+            e.preventDefault();
+            //按下回车后需要执行的函数，可以直接调用login函数
+            login();
+        }
+    });
+    /*光标处于输入密码框，按回车登录 end*/
+</script>
+<body style="background:url(img/bg.jpg) no-repeat;">
+<div class="container wrap1" style="height:450px;">
+    <h2 class="mg-b20 text-center">教师成果管理系统</h2>
+    <div class="col-sm-8 col-md-5 center-auto pd-sm-50 pd-xs-20 main_content">
+        <p class="text-center font20">用户登录</p>
+        <form action="login" method="post">
+            <div class="form-group mg-t20">
+                <i class="icon-user icon_font"></i>
+                <input class="login_input" id="userName" type="text" name="userName"
+                       placeholder="请输入用户名" required autofocus>
+            </div>
+            <div class="form-group mg-t20">
+                <i class="icon-lock icon_font"></i>
+                <input class="login_input" id="password" type="password" name="password"
+                       placeholder="请输入密码" required>
+            </div>
+            <div class="checkbox mg-b25">
+                <label>
+                    <input name="loginType" checked type="radio" value="admin" id="admin">
+                    <label class="custom-control-label" for="admin">管理员</label>
+                </label>
+                <label>
+                    <input name="loginType" type="radio" class="custom-control-input" value="user" id="user">
+                    <label class="custom-control-label" for="user">老师</label>
+                </label>
+            </div>
+            <input class="login_btn" type="submit" value="登 录">
+        </form>
+    </div>
+</div>
+</body>
+</html>
