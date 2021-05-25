@@ -37,3 +37,7 @@ function logout() {
         }
     });
 }
+
+function rmCls(){
+    $("#dd_rmCls").removeClass("layui-this");
+}

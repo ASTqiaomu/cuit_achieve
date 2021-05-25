@@ -1,6 +1,7 @@
 package cn.cuit.edu.achieve.dao;
 
 import cn.cuit.edu.achieve.bean.Admin;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -20,4 +21,11 @@ public interface AdminDao {
      * @return java.util.List<cn.cuit.edu.achieve.bean.Admin>
      */
     List<Admin> selectAll(Admin admin);
+
+    @Update("Update t_admin set " +
+        "adminId = #{adminId}," +
+        "adminName = #{adminName})," +
+        "adminPassword = #{adminPassword}," +
+        "adminLevel = #{adminLevel}")
+    Integer update(Admin admin);
 }

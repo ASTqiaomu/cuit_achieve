@@ -16,12 +16,12 @@
                 <a href="#" class="icon-font"><i class="ai ai-menufold"></i></a>
             </li>
         </ul>
-        <ul class="layui-nav layui-layout-right">
+        <ul class="layui-nav layui-layout-right" onmouseout="rmCls();" >
             <li class="layui-nav-item">
                 <a href="#">管理员，<span id="adminName">未登录</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="<%=basePath%>admin/adminmima.jsp">修改密码</a></dd>
-                    <dd><a href="javascript:logout()">退出</a></dd>
+                    <dd id="dd_rmCls"><a href="javascript:$('#changePw').click();">修改密码</a></dd>
+                    <dd><a href="javascript:logout();">退出</a></dd>
                 </dl>
             </li>
         </ul>
@@ -41,7 +41,7 @@
                         <dd><a href="welcome.html">欢迎页</a></dd>
                     </dl>
                     <dl class="layui-nav-child">
-                        <dd><a href="<%=basePath%>admin/adminmima.jsp">修改密码</a></dd>
+                        <dd><a id="changePw" href="adminChangePw.html">修改密码</a></dd>
                     </dl>
                     <dl class="layui-nav-child">
                         <dd><a href="<%=basePath%>admin/rizhi.jsp">登录日志</a></dd>
