@@ -6,13 +6,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
+ * t_college
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @version 1.0.0
  * @class College
  * @date 2021/5/10 15:03
- * @description t_college
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

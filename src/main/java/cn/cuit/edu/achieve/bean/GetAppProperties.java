@@ -5,13 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 获取配置文件值
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @version 1.0.0
  * @class GetAppProperties
  * @date 2021/5/10 15:31:41
- * @description 获取配置文件值
  */
-
 @Configuration
 public class GetAppProperties {
     /**获取配置文件application.properties中的端口号port*/

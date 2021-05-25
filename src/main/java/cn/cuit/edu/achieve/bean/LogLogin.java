@@ -8,13 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
+ * t_log_login
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @version 1.0.0
  * @class LogLogin
  * @date 2021/5/20 17:33
- * @description t_log_login
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cuit.edu.achieve.dao.UserDao">
+    <resultMap id="userResultMap" type="cn.cuit.edu.achieve.bean.User">
+        <id column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="userName" property="userName" jdbcType="NVARCHAR" />
+        <result column="userPassword" property="userPassword" jdbcType="NVARCHAR" />
+        <result column="userTrueName" property="userTrueName" jdbcType="NVARCHAR" />
+        <result column="userScore" property="userScore" jdbcType="INTEGER" />
+        <result column="userSex" property="userSex" jdbcType="NVARCHAR" />
+        <result column="userPhone" property="userPhone" jdbcType="NVARCHAR" />
+        <result column="collegeId" property="collegeId" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectAll" resultMap="userResultMap" parameterType="cn.cuit.edu.achieve.bean.User">
+        select * from t_user
+        <where>
+            <if test="userId!=null and userId!=''">
+                and userId = #{userId}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and userName = #{userName}
+            </if>
+            <if test="userPassword!=null and userPassword!=''">
+                and userPassword = #{userPassword}
+            </if>
+            <if test="userTrueName!=null and userTrueName!=''">
+                and userTrueName = #{userTrueName}
+            </if>
+            <if test="userScore!=null and userScore!=''">
+                and userScore = #{userScore}
+            </if>
+            <if test="userSex!=null and userSex!=''">
+                and userSex = #{userSex}
+            </if>
+            <if test="userPhone!=null and userPhone!=''">
+                and userPhone = #{userPhone}
+            </if>
+            <if test="collegeId!=null and collegeId!=''">
+                and collegeId = #{collegeId}
+            </if>
+        </where>
+        order by userId
+    </select>
+</mapper>

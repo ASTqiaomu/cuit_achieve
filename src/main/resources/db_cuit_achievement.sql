@@ -52,8 +52,8 @@ CREATE TABLE t_user (
     userName NVARCHAR(16) NOT NULL UNIQUE,
     userPassword NVARCHAR(16) NOT NULL,
     userTrueName NVARCHAR(16) NOT NULL,
-    userScore INT CHECK(userScore>=0) DEFAULT 0,
-    userSex NVARCHAR(1) CHECK(userSex IN ('男','女')) NOT NULL,
+    userScore INT DEFAULT 0 CHECK(userScore>=0),
+    userSex NVARCHAR(1) NOT NULL CHECK(userSex IN ('男','女')),
     userPhone NVARCHAR(16) DEFAULT NULL,
     collegeId INT REFERENCES t_college(collegeId)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
@@ -71,7 +71,7 @@ CREATE TABLE t_log_login (
     loginDate DATETIME DEFAULT NOW()
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO t_log_login VALUES (1, 'admin', '127.0.0.1', '2021-05-20 17:39:35');
+INSERT INTO t_log_login VALUES (1, 'admin', '127.0.0.1', '2021-05-19 17:39:35');
 
 DROP TABLE IF EXISTS t_result_type;
 CREATE TABLE t_result_type (
@@ -79,7 +79,7 @@ CREATE TABLE t_result_type (
     typeName NVARCHAR(32) NOT NULL UNIQUE,
     typeDesc NVARCHAR(512) DEFAULT NULL,
     -- 成果类型绩效分
-    typeScore INT CHECK(typeScore>=0) DEFAULT 0
+    typeScore INT DEFAULT 0 CHECK(typeScore>=0)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO t_result_type VALUES (1, '科研项目', '有研究、实际应用意义或者获得过省级或国家级奖项的科研项目，即可申请', 6);
@@ -102,7 +102,7 @@ CREATE TABLE t_result (
     -- 成果提交日期
     resDate DATETIME DEFAULT now(),
     -- 成果状态，0提交，1通过，2拒绝
-    resStatus INT CHECK(resStatus IN (0,1,2)) NOT NULL,
+    resStatus INT NOT NULL CHECK(resStatus IN (0,1,2)),
     typeId INT REFERENCES t_result_type(typeId),
     typeName NVARCHAR(32)	REFERENCES t_result_type(typeName),
     -- 成果图片
@@ -122,7 +122,7 @@ CREATE TABLE t_log_verify (
     verifyId INT AUTO_INCREMENT PRIMARY KEY,
     resId INT REFERENCES t_result(resId),
     -- 审核状态，0申请，1通过，2拒绝
-    verifyType INT CHECK(verifyType IN (0,1,2)) NOT NULL,
+    verifyType INT NOT NULL CHECK(verifyType IN (0,1,2)),
     verifyDesc NVARCHAR(512) DEFAULT NULL,
     adminId INT REFERENCES t_admin(adminId),
     verifyDate datetime DEFAULT now()

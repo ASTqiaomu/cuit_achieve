@@ -1,12 +1,23 @@
 package cn.cuit.edu.achieve;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 
-@SpringBootApplication
-public class AchieveApplication {
+/**
+ * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+ * @version 1.0.0
+ * @class AchieveApplication
+ * @date 2021/5/10 14:40
+ * @description 项目启动类
+ */
 
+@MapperScan(basePackages = {"cn.cuit.edu.achieve.dao"})
+@SpringBootApplication
+@ServletComponentScan
+public class AchieveApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(AchieveApplication.class, args);
         System.out.println("正在启动...");

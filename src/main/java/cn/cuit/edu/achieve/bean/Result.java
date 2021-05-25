@@ -8,13 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
+ * t_result
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @version 1.0.0
  * @class Result
  * @date 2021/5/10 15:17
- * @description t_result
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

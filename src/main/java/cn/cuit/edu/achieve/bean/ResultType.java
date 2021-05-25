@@ -6,18 +6,16 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
+ * t_result_type
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @version 1.0.0
- * @class Result_type
+ * @class ResultType
  * @date 2021/5/10 15:15
- * @description t_result_type
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class Result_type {
+public class ResultType {
     Integer typeId;
     String typeName;
     String typeDesc;
