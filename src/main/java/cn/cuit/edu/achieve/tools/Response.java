@@ -1,4 +1,4 @@
-package cn.cuit.edu.achieve.bean;
+package cn.cuit.edu.achieve.tools;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Map;
  * @class UtilsTools
  * @date 2021/5/22 21:55
  */
-public class ResponseTools<T> {
+public class Response<T> {
     Map<String,Object> map = new HashMap<>(4);
-    public ResponseTools(List<T> list){
+    public Response(List<T> list){
         if (list.size()>0){
             map.put("code","0");
             map.put("list", list);

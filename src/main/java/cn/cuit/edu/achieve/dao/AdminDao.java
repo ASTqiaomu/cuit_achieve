@@ -22,10 +22,19 @@ public interface AdminDao {
      */
     List<Admin> selectAll(Admin admin);
 
+    /**
+     * 更新admin数据
+     * @method update
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/26 13:45
+     * @param admin cn.cuit.edu.achieve.bean.Admin
+     * @return java.lang.Integer
+     */
     @Update("Update t_admin set " +
         "adminId = #{adminId}," +
-        "adminName = #{adminName})," +
+        "adminName = #{adminName}," +
         "adminPassword = #{adminPassword}," +
-        "adminLevel = #{adminLevel}")
+        "adminLevel = #{adminLevel} " +
+        "where adminId = #{adminId}")
     Integer update(Admin admin);
 }

@@ -20,4 +20,14 @@ public interface AdminServices {
      * @return java.util.Map<java.lang.String, java.lang.Object>
      */
     List<Admin> selectAll(Admin admin);
+
+    /**
+     * 更新数据，对象admin中的非空参数都将作为更新后的数据
+     * @method update
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/26 13:42
+     * @param admin cn.cuit.edu.achieve.bean.Admin
+     * @return java.lang.Integer
+     */
+    Integer update(Admin admin);
 }

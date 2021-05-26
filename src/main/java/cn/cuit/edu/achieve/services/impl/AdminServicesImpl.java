@@ -25,4 +25,9 @@ public class AdminServicesImpl implements AdminServices {
     public List<Admin> selectAll(Admin admin) {
         return adminDao.selectAll(admin);
     }
+
+    @Override
+    public Integer update(Admin admin) {
+        return adminDao.update(admin);
+    }
 }

@@ -1,13 +1,12 @@
 package cn.cuit.edu.achieve.controller;
 
+import cn.cuit.edu.achieve.tools.Tools;
 import cn.cuit.edu.achieve.bean.Admin;
 import cn.cuit.edu.achieve.bean.LogLogin;
 import cn.cuit.edu.achieve.bean.User;
 import cn.cuit.edu.achieve.services.AdminServices;
 import cn.cuit.edu.achieve.services.LogLoginServices;
 import cn.cuit.edu.achieve.services.UserServices;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,7 +19,6 @@ import java.util.Map;
 
 /**
  * 登录控制层
- *
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
  * @class LoginController
  * @date 2021/5/21 13:17
@@ -45,9 +43,10 @@ public class LoginController {
     final String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
     final String LOCALHOST_IPV4 = "127.0.0.1";
 
+    HashMap<String, Object> map = null;
+
     /**
      * 登录
-     *
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return void
@@ -58,7 +57,7 @@ public class LoginController {
     @RequestMapping("/login")
     @ResponseBody
     public boolean login(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
-        HashMap<String, Object> map = JSON.parseObject(data, new TypeReference<HashMap<String, Object>>() {});
+        map = Tools.JsonToHashMap.getHashMap(data);
         String userName = map.get("userName").toString();
         String password = map.get("password").toString();
         String loginType = map.get("loginType").toString();
@@ -77,13 +76,13 @@ public class LoginController {
             List<Admin> list = adminServices.selectAll(admin);
             if (list.size() == 1) {
                 HttpSession session = request.getSession();
-                // 获取到查询出的Admin对象，随后往会话中设置属性
+                // 获取到查询出的admin对象，随后往会话中设置属性
                 admin = list.get(0);
                 session.setAttribute("admin", admin);
                 loginSuccess = true;
             }
         } else if (loginType.equals(userStr)) {
-            // 老师登录
+            // 用户登录
             User user = new User();
             user.setUserName(userName);
             user.setUserPassword(password);
@@ -91,7 +90,7 @@ public class LoginController {
             List<User> list = userServices.selectAll(user);
             if (list.size() == 1) {
                 HttpSession session = request.getSession();
-                // 获取到查询出的Admin对象，随后往会话中设置属性
+                // 获取到查询出的user对象，随后往会话中设置属性
                 user = list.get(0);
                 session.setAttribute("user", user);
                 loginSuccess = true;
@@ -113,7 +112,6 @@ public class LoginController {
 
     /**
      * 获取登录的管理员或用户
-     *
      * @param data     java.lang.String
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
@@ -147,7 +145,6 @@ public class LoginController {
 
     /**
      * 退出
-     *
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return java.lang.Integer
@@ -164,15 +161,15 @@ public class LoginController {
             Admin admin = (Admin) session.getAttribute("admin");
             if (admin != null) {
                 session.removeAttribute("admin");
-                return 0;
             }
+            return 0;
         } else if (data.equals(userMainStr)) {
             // 如果请求的页面是普通页
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 session.removeAttribute("user");
-                return 0;
             }
+            return 0;
         }
         return 1;
     }
