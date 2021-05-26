@@ -1,5 +1,6 @@
 package cn.cuit.edu.achieve.dao;
 
+import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public interface UserDao {
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/5/22 21:39
      * @param user cn.cuit.edu.achieve.bean.User
+     * @param pageBean cn.cuit.edu.achieve.bean.PageBean
      * @return java.util.List<cn.cuit.edu.achieve.bean.User>
      */
-    List<User> selectAll(User user);
+    List<User> selectAll(User user, PageBean pageBean);
 }

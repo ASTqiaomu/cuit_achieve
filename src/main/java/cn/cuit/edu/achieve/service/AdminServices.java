@@ -1,6 +1,7 @@
-package cn.cuit.edu.achieve.services;
+package cn.cuit.edu.achieve.service;
 
 import cn.cuit.edu.achieve.bean.Admin;
+import cn.cuit.edu.achieve.bean.PageBean;
 
 import java.util.List;
 
@@ -17,9 +18,10 @@ public interface AdminServices {
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/5/22 22:45
      * @param admin cn.cuit.edu.achieve.bean.Admin
-     * @return java.util.Map<java.lang.String, java.lang.Object>
+     * @param pageBean cn.cuit.edu.achieve.bean.PageBean
+     * @return java.util.List<cn.cuit.edu.achieve.bean.Admin>
      */
-    List<Admin> selectAll(Admin admin);
+    List<Admin> selectAll(Admin admin, PageBean pageBean);
 
     /**
      * 更新数据，对象admin中的非空参数都将作为更新后的数据

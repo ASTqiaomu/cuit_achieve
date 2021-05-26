@@ -1,6 +1,7 @@
 package cn.cuit.edu.achieve.dao;
 
 import cn.cuit.edu.achieve.bean.Admin;
+import cn.cuit.edu.achieve.bean.PageBean;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -18,9 +19,10 @@ public interface AdminDao {
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/5/21 14:54
      * @param admin cn.cuit.edu.achieve.bean.Admin
+     * @param pageBean cn.cuit.edu.achieve.bean.PageBean
      * @return java.util.List<cn.cuit.edu.achieve.bean.Admin>
      */
-    List<Admin> selectAll(Admin admin);
+    List<Admin> selectAll(Admin admin, PageBean pageBean);
 
     /**
      * 更新admin数据

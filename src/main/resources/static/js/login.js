@@ -60,7 +60,7 @@ function login() {
                         window.location.href = "adminMain.html";
 
                     } else if (loginType === "user") {
-                        window.location.href = "userMain.html.html";
+                        window.location.href = "userMain.html";
                     }
                 } else {
                     alert("用户名或密码错误！");

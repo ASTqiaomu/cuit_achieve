@@ -1,8 +1,9 @@
-package cn.cuit.edu.achieve.services.impl;
+package cn.cuit.edu.achieve.service.impl;
 
+import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
 import cn.cuit.edu.achieve.dao.UserDao;
-import cn.cuit.edu.achieve.services.UserServices;
+import cn.cuit.edu.achieve.service.UserServices;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,7 @@ public class UserServicesImpl implements UserServices {
     private UserDao userDao;
 
     @Override
-    public List<User> selectAll(User user) {
-        return userDao.selectAll(user);
+    public List<User> selectAll(User user, PageBean pageBean) {
+        return userDao.selectAll(user, pageBean);
     }
 }

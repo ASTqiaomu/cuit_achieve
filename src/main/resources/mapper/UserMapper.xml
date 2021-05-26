@@ -11,34 +11,41 @@
         <result column="userPhone" property="userPhone" jdbcType="NVARCHAR" />
         <result column="collegeId" property="collegeId" jdbcType="INTEGER" />
     </resultMap>
-    <select id="selectAll" resultMap="userResultMap" parameterType="cn.cuit.edu.achieve.bean.User">
+    <select id="selectAll" resultMap="userResultMap">
         select * from t_user
         <where>
-            <if test="userId!=null and userId!=''">
-                and userId = #{userId}
-            </if>
-            <if test="userName!=null and userName!=''">
-                and userName = #{userName}
-            </if>
-            <if test="userPassword!=null and userPassword!=''">
-                and userPassword = #{userPassword}
-            </if>
-            <if test="userTrueName!=null and userTrueName!=''">
-                and userTrueName = #{userTrueName}
-            </if>
-            <if test="userScore!=null and userScore!=''">
-                and userScore = #{userScore}
-            </if>
-            <if test="userSex!=null and userSex!=''">
-                and userSex = #{userSex}
-            </if>
-            <if test="userPhone!=null and userPhone!=''">
-                and userPhone = #{userPhone}
-            </if>
-            <if test="collegeId!=null and collegeId!=''">
-                and collegeId = #{collegeId}
+            <if test="user!=null">
+                <if test="user.userId!=null and user.userId!=''">
+                    and userId = #{user.userId}
+                </if>
+                <if test="user.userName!=null and user.userName!=''">
+                    and userName = #{user.userName}
+                </if>
+                <if test="user.userPassword!=null and user.userPassword!=''">
+                    and userPassword = #{user.userPassword}
+                </if>
+                <if test="user.userTrueName!=null and user.userTrueName!=''">
+                    and userTrueName = #{user.userTrueName}
+                </if>
+                <if test="user.userScore!=null and user.userScore!=''">
+                    and userScore = #{user.userScore}
+                </if>
+                <if test="user.userSex!=null and user.userSex!=''">
+                    and userSex = #{user.userSex}
+                </if>
+                <if test="user.userPhone!=null and user.userPhone!=''">
+                    and userPhone = #{user.userPhone}
+                </if>
+                <if test="user.collegeId!=null and user.collegeId!=''">
+                    and collegeId = #{user.collegeId}
+                </if>
             </if>
         </where>
         order by userId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
     </select>
 </mapper>

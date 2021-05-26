@@ -1,8 +1,9 @@
 package cn.cuit.edu.achieve.controller;
 
-import cn.cuit.edu.achieve.tools.Tools;
 import cn.cuit.edu.achieve.bean.Admin;
-import cn.cuit.edu.achieve.services.AdminServices;
+import cn.cuit.edu.achieve.service.AdminServices;
+import cn.cuit.edu.achieve.util.CharacterEncoding;
+import cn.cuit.edu.achieve.util.JsonToHashMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,11 +25,23 @@ public class AdminController {
     AdminServices adminServices;
 
     HashMap<String, Object> map = null;
+
+    /**
+     * 管理员修改密码
+     * @method adminChangePw
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/26 18:05
+     * @param data java.lang.String
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return boolean
+     */
     @RequestMapping("/adminChangePw")
     @ResponseBody
-    public boolean adminChangePw(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+    public boolean adminChangePw(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CharacterEncoding.setEncoding(request,response,"UTF-8");
         boolean changeSuccess = false;
-        map = Tools.JsonToHashMap.getHashMap(data);
+        map = JsonToHashMap.getHashMap(data);
         String oldPassword = map.get("oldPassword").toString();
         String newPassword = map.get("newPassword").toString();
         HttpSession session = request.getSession();

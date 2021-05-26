@@ -1,6 +1,7 @@
-package cn.cuit.edu.achieve.services;
+package cn.cuit.edu.achieve.service;
 
 import cn.cuit.edu.achieve.bean.LogLogin;
+import cn.cuit.edu.achieve.bean.PageBean;
 
 import java.util.List;
 
@@ -17,9 +18,10 @@ public interface LogLoginServices {
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/5/23 16:01
      * @param logLogin cn.cuit.edu.achieve.bean.LogLogin
+     * @param pageBean cn.cuit.edu.achieve.bean.PageBean
      * @return java.util.List<cn.cuit.edu.achieve.bean.LogLogin>
      */
-    List<LogLogin> selectAll(LogLogin logLogin);
+    List<LogLogin> selectAll(LogLogin logLogin, PageBean pageBean);
 
     /**
      * 插入登录日志
@@ -30,4 +32,23 @@ public interface LogLoginServices {
      * @return java.lang.Integer
      */
     Integer insertLogLogin(LogLogin logLogin);
+
+    /**
+     * 获取登录日志数量
+     * @method selectCounts
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/26 19:13
+     * @return java.lang.Integer
+     */
+    Integer selectCounts();
+
+    /**
+     * 按照logId删除日志
+     * @method deleteById
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/26 21:08
+     * @param logId java.lang.Integer
+     * @return java.lang.Integer
+     */
+    Integer deleteById(Integer logId);
 }

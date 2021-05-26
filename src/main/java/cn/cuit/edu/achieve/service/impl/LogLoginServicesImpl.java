@@ -1,8 +1,9 @@
-package cn.cuit.edu.achieve.services.impl;
+package cn.cuit.edu.achieve.service.impl;
 
 import cn.cuit.edu.achieve.bean.LogLogin;
+import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.dao.LogLoginDao;
-import cn.cuit.edu.achieve.services.LogLoginServices;
+import cn.cuit.edu.achieve.service.LogLoginServices;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +23,22 @@ public class LogLoginServicesImpl implements LogLoginServices {
     LogLoginDao logLoginDao;
 
     @Override
-    public List<LogLogin> selectAll(LogLogin logLogin) {
-        return logLoginDao.selectAll(logLogin);
+    public List<LogLogin> selectAll(LogLogin logLogin, PageBean pageBean) {
+        return logLoginDao.selectAll(logLogin, pageBean);
     }
 
     @Override
     public Integer insertLogLogin(LogLogin logLogin) {
         return logLoginDao.insertLogLogin(logLogin);
+    }
+
+    @Override
+    public Integer selectCounts() {
+        return logLoginDao.selectCounts();
+    }
+
+    @Override
+    public Integer deleteById(Integer logId) {
+        return logLoginDao.deleteById(logId);
     }
 }

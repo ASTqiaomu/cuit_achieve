@@ -1,8 +1,9 @@
-package cn.cuit.edu.achieve.services.impl;
+package cn.cuit.edu.achieve.service.impl;
 
 import cn.cuit.edu.achieve.bean.Admin;
+import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.dao.AdminDao;
-import cn.cuit.edu.achieve.services.AdminServices;
+import cn.cuit.edu.achieve.service.AdminServices;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +23,8 @@ public class AdminServicesImpl implements AdminServices {
     private AdminDao adminDao;
 
     @Override
-    public List<Admin> selectAll(Admin admin) {
-        return adminDao.selectAll(admin);
+    public List<Admin> selectAll(Admin admin, PageBean pageBean) {
+        return adminDao.selectAll(admin, pageBean);
     }
 
     @Override

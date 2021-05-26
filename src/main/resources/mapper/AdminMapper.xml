@@ -7,42 +7,29 @@
         <result column="adminPassword" property="adminPassword" jdbcType="NVARCHAR" />
         <result column="adminLevel" property="adminLevel" jdbcType="INTEGER" />
     </resultMap>
-    <select id="selectAll" resultMap="adminResultMap" parameterType="cn.cuit.edu.achieve.bean.Admin">
+    <select id="selectAll" resultMap="adminResultMap">
         select * from t_admin
         <where>
-            <if test="adminId!=null and adminId!=''">
-                and adminId = #{adminId}
-            </if>
-            <if test="adminName!=null and adminName!=''">
-                and adminName = #{adminName}
-            </if>
-            <if test="adminPassword!=null and adminPassword!=''">
-                and adminPassword = #{adminPassword}
-            </if>
-            <if test="adminLevel!=null and adminLevel!=''">
-                and adminLevel = #{adminLevel}
+            <if test="admin!=null">
+                <if test="admin.adminId!=null and admin.adminId!=''">
+                    and adminId = #{admin.adminId}
+                </if>
+                <if test="admin.adminName!=null and admin.adminName!=''">
+                    and adminName = #{admin.adminName}
+                </if>
+                <if test="admin.adminPassword!=null and admin.adminPassword!=''">
+                    and adminPassword = #{admin.adminPassword}
+                </if>
+                <if test="admin.adminLevel!=null and admin.adminLevel!=''">
+                    and adminLevel = #{admin.adminLevel}
+                </if>
             </if>
         </where>
         order by adminId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
     </select>
-
-
-
-
-<!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >-->
-<!--        delete from t_admin-->
-<!--        where adminId = #{adminId,jdbcType=INTEGER}-->
-<!--    </delete>-->
-<!--    <insert id="insert" parameterType="com.model.Admin" >-->
-<!--        insert into t_admin (adminId, adminName, adminPassword-->
-<!--        )-->
-<!--        values (#{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}-->
-<!--        )-->
-<!--    </insert>-->
-<!--    <update id="updateByPrimaryKey" parameterType="com.model.Admin" >-->
-<!--        update t_admin-->
-<!--        set adminName = #{adminName,jdbcType=VARCHAR},-->
-<!--        adminPassword = #{adminPassword,jdbcType=VARCHAR}-->
-<!--        where adminId = #{adminId,jdbcType=INTEGER}-->
-<!--    </update>-->
 </mapper>

@@ -7,22 +7,29 @@
         <result column="loginIp" property="loginIp" jdbcType="NVARCHAR" />
         <result column="loginDate" property="loginDate" jdbcType="TIMESTAMP" />
     </resultMap>
-    <select id="selectAll" resultMap="logLoginResultMap" parameterType="cn.cuit.edu.achieve.bean.LogLogin">
+    <select id="selectAll" resultMap="logLoginResultMap">
         select * from t_log_login
         <where>
-            <if test="logId!=null and logId!=''">
-                and logId = #{logId}
-            </if>
-            <if test="loginName!=null and loginName!=''">
-                and loginName = #{loginName}
-            </if>
-            <if test="loginIp!=null and loginIp!=''">
-                and loginIp = #{loginIp}
-            </if>
-            <if test="loginDate!=null and loginDate!=''">
-                and loginDate = #{loginDate}
+            <if test="logLogin!=null">
+                <if test="logLogin.logId!=null and logLogin.logId!=''">
+                    and logId = #{logLogin.logId}
+                </if>
+                <if test="logLogin.loginName!=null and logLogin.loginName!=''">
+                    and loginName = #{logLogin.loginName}
+                </if>
+                <if test="logLogin.loginIp!=null and logLogin.loginIp!=''">
+                    and loginIp = #{logLogin.loginIp}
+                </if>
+                <if test="logLogin.loginDate!=null and logLogin.loginDate!=''">
+                    and loginDate = #{logLogin.loginDate}
+                </if>
             </if>
         </where>
         order by logId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
     </select>
 </mapper>
