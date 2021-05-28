@@ -1,7 +1,7 @@
 package cn.cuit.edu.achieve.controller;
 
 import cn.cuit.edu.achieve.bean.Admin;
-import cn.cuit.edu.achieve.service.AdminServices;
+import cn.cuit.edu.achieve.service.AdminService;
 import cn.cuit.edu.achieve.util.CharacterEncoding;
 import cn.cuit.edu.achieve.util.JsonToHashMap;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 @RestController
 public class AdminController {
     @Resource
-    AdminServices adminServices;
+    AdminService adminService;
 
     HashMap<String, Object> map = null;
 
@@ -49,7 +49,7 @@ public class AdminController {
         Admin admin = (Admin) session.getAttribute("admin");
         if (admin.getAdminPassword().equals(oldPassword)){
             admin.setAdminPassword(newPassword);
-            if (adminServices.update(admin)==1){
+            if (adminService.update(admin)==1){
                 //如果修改数据库行数为1，则修改成功，往session中设置新的admin对象
                 changeSuccess = true;
                 session.setAttribute("admin",admin);

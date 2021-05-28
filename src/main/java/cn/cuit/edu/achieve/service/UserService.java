@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * User业务层接口
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @class UserServices
+ * @class UserService
  * @date 2021/5/22 21:35
  */
-public interface UserServices {
+public interface UserService {
     /**
      * 多条件查询，对象user中的非空参数都将作为筛选条件
      * @method selectAll
@@ -22,4 +22,14 @@ public interface UserServices {
      * @return java.util.List<cn.cuit.edu.achieve.bean.User>
      */
     List<User> selectAll(User user, PageBean pageBean);
+
+    /**
+     * 更新数据，对象user中的非空参数都将作为更新后的数据
+     * @method update
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/28 17:31
+     * @param user cn.cuit.edu.achieve.bean.User
+     * @return java.lang.Integer
+     */
+    Integer update(User user);
 }

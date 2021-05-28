@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * LogLogin业务层接口
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @class LogLoginServices
+ * @class LogLoginService
  * @date 2021/5/23 16:00
  */
-public interface LogLoginServices {
+public interface LogLoginService {
     /**
      * 多条件查询，对象logLogin中的非空参数都将作为筛选条件
      * @method selectAll

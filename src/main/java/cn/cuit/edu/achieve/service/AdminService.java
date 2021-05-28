@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * Admin业务层接口
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @class AdminServices
+ * @class AdminService
  * @date 2021/5/21 13:00
  */
-public interface AdminServices {
+public interface AdminService {
     /**
      * 多条件查询，对象admin中的非空参数都将作为筛选条件
      * @method selectAll

@@ -3,7 +3,7 @@ package cn.cuit.edu.achieve.service.impl;
 import cn.cuit.edu.achieve.bean.Admin;
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.dao.AdminDao;
-import cn.cuit.edu.achieve.service.AdminServices;
+import cn.cuit.edu.achieve.service.AdminService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * Admin业务层接口实现
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
- * @class AdminServicesImpl
+ * @class AdminServiceImpl
  * @date 2021/5/21 14:01
  */
 @Transactional(rollbackFor = Exception.class)
 @Service
-public class AdminServicesImpl implements AdminServices {
+public class AdminServiceImpl implements AdminService {
     @Resource
     private AdminDao adminDao;
 

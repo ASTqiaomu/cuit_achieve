@@ -2,7 +2,7 @@ package cn.cuit.edu.achieve.controller;
 
 import cn.cuit.edu.achieve.bean.LogLogin;
 import cn.cuit.edu.achieve.bean.PageBean;
-import cn.cuit.edu.achieve.service.LogLoginServices;
+import cn.cuit.edu.achieve.service.LogLoginService;
 import cn.cuit.edu.achieve.util.CharacterEncoding;
 import cn.cuit.edu.achieve.util.Response;
 import com.alibaba.fastjson.JSON;
@@ -29,11 +29,10 @@ import java.util.List;
 @RestController
 public class LogLoginController {
     @Resource
-    LogLoginServices logLoginServices;
+    LogLoginService logLoginService;
 
     /**
      * 获取登录日志
-     *
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return void
@@ -48,15 +47,24 @@ public class LogLoginController {
         Integer page = Integer.parseInt(request.getParameter("page"));
         Integer rows = Integer.parseInt(request.getParameter("rows"));
         PageBean pageBean = new PageBean(page, rows);
-        List<LogLogin> list = logLoginServices.selectAll(null, pageBean);
+        List<LogLogin> list = logLoginService.selectAll(null, pageBean);
         JSONArray jsonArray = (JSONArray) JSON.toJSON(list);
         JSONObject result = new JSONObject();
-        int total = logLoginServices.selectCounts();
+        int total = logLoginService.selectCounts();
         result.put("rows", jsonArray);
         result.put("total", total);
         Response.write(response, result);
     }
 
+    /**
+     * 删除登录日志
+     * @method deleteLogLogin
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/28 18:01
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return void
+     */
     @RequestMapping("/deleteLogLogin")
     @ResponseBody
     public void deleteLogLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -66,7 +74,7 @@ public class LogLoginController {
         String[] ids = delIds.split(",");
         Integer delNums = 0;
         for (String id : ids) {
-            if (logLoginServices.deleteById(Integer.parseInt(id)) == 1) {
+            if (logLoginService.deleteById(Integer.parseInt(id)) == 1) {
                 delNums++;
             }
         }

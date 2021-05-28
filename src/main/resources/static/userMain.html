@@ -1,55 +1,52 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html lang="zh">
 <head id="Head1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title><%=newJcpeizhi.getJcpeizhiName()%></title>
-    <link rel="stylesheet" href="<%=basePath%>houtai/muban10/assets/css/layui.css">
-    <link rel="stylesheet" href="<%=basePath%>houtai/muban10/assets/css/admin.css">
-    <link rel="icon" href="<%=basePath%>houtai/muban10/favicon.ico">
+    <title>教师成果管理系统</title>
+    <link rel="stylesheet" href="layui/assets/css/layui.css">
+    <link rel="stylesheet" href="layui/assets/css/admin.css">
+    <script src="js/jquery-3.5.0.js"></script>
+    <script src="js/myMain.js"></script>
 </head>
-<body class="layui-layout-body">
+<body id="userMain" class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header custom-header">
-
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item slide-sidebar" lay-unselect>
-                <a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
+                <a href="#" class="icon-font"><i class="ai ai-menufold"></i></a>
             </li>
         </ul>
-
-        <ul class="layui-nav layui-layout-right">
+        <ul class="layui-nav layui-layout-right" onmouseout="rmCls();">
             <li class="layui-nav-item">
-                <a href="javascript:;"><%=newJcpeizhi.getUserBieming()%>，<%=userName %></a>
+                <a href="#">老师<span id="userId" style="display: none;"></span>，
+                    <span id="userTrueName">未登录</span>
+                </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="<%=basePath%>user/usermima.jsp">修改密码</a></dd>
-                    <dd><a href="<%=basePath%>shouye/tuichu.jsp">退出</a></dd>
-                    <dd><a target="_blank" href="<%=basePath%>">返回网站</a></dd>
+                    <dd id="dd_rmCls"><a href="javascript:$('#changePw').click();">修改密码</a></dd>
+                    <dd><a href="javascript:logout();">退出</a></dd>
                 </dl>
             </li>
         </ul>
     </div>
-
     <div class="layui-side custom-admin">
         <div class="layui-side-scroll">
-
             <div class="custom-logo">
-                <h1><%=newJcpeizhi.getJcpeizhiName()%></h1>
+                <h1>教师成果管理系统</h1>
             </div>
             <ul id="Nav" class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
+                    <a href="#">
                         <i class="layui-icon">&#xe609;</i>
                         <em>个人信息</em>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="<%=basePath%>shouye/neiye.jsp">欢迎页</a></dd>
+                        <dd><a href="welcome.html">欢迎页</a></dd>
                     </dl>
                     <dl class="layui-nav-child">
-                        <dd><a href="<%=basePath%>user/user.jsp">个人信息</a></dd>
+                        <dd><a href="userInfo.html">个人信息</a></dd>
                     </dl>
                     <dl class="layui-nav-child">
-                        <dd><a href="<%=basePath%>user/usermima.jsp">修改密码</a></dd>
+                        <dd><a id="changePw" href="changePw.html">修改密码</a></dd>
                     </dl>
                 </li>
                 <%for(int i = 0; i < jcbiaotis.size(); i++){ %>
@@ -77,14 +74,12 @@
             <div id="appTabPage" class="layui-tab-content"></div>
         </div>
     </div>
-
     <div class="layui-footer">
-        <p><%=newJcpeizhi.getJcpeizhiName()%></p>
+        <p>教师成果管理系统</p>
     </div>
-
     <div class="mobile-mask"></div>
 </div>
-<script src="<%=basePath%>houtai/muban10/assets/layui.js"></script>
-<script src="<%=basePath%>houtai/muban10/index.js" data-main="home"></script>
+<script src="layui/assets/layui.js"></script>
+<script src="layui/index.js" data-main="home"></script>
 </body>
 </html>

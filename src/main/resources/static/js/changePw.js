@@ -1,7 +1,15 @@
 let oldPassword = null, newPassword = null, data = null;
 let element_oldPassword = null, element_newPassword = null, element_againPassword = null;
+let Page = null;
+let url = null;
 
 window.onload = function () {
+    Page = parent.$('body')[0].id;
+    if (Page==="adminMain"){
+        url = "adminChangePw";
+    }else if (Page==="userMain"){
+        url = "userChangePw";
+    }
     element_oldPassword = $("#oldPassword");
     element_newPassword = $("#newPassword");
     element_againPassword = $("#againPassword");
@@ -50,7 +58,7 @@ function changePw() {
         data = {oldPassword: oldPassword, newPassword: newPassword};
         $.ajax({
             type: "POST",
-            url: "adminChangePw",
+            url: url,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: JSON.stringify(data),
@@ -59,6 +67,8 @@ function changePw() {
                 if (msg === true) {
                     //账号密码正确
                     alert("修改成功");
+                    $('#input_reset').click();
+                    $('#oldPassword').focus();
                 } else {
                     alert("原密码不正确");
                 }

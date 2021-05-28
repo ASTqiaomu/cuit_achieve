@@ -3,9 +3,9 @@ package cn.cuit.edu.achieve.controller;
 import cn.cuit.edu.achieve.bean.Admin;
 import cn.cuit.edu.achieve.bean.LogLogin;
 import cn.cuit.edu.achieve.bean.User;
-import cn.cuit.edu.achieve.service.AdminServices;
-import cn.cuit.edu.achieve.service.LogLoginServices;
-import cn.cuit.edu.achieve.service.UserServices;
+import cn.cuit.edu.achieve.service.AdminService;
+import cn.cuit.edu.achieve.service.LogLoginService;
+import cn.cuit.edu.achieve.service.UserService;
 import cn.cuit.edu.achieve.util.CharacterEncoding;
 import cn.cuit.edu.achieve.util.JsonToHashMap;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +28,11 @@ import java.util.Map;
 @RestController
 public class LoginController {
     @Resource
-    private AdminServices adminServices;
+    private AdminService adminService;
     @Resource
-    private UserServices userServices;
+    private UserService userService;
     @Resource
-    private LogLoginServices logLoginServices;
+    private LogLoginService logLoginService;
 
     /**
      * 消除魔法值
@@ -76,7 +76,7 @@ public class LoginController {
             admin.setAdminName(userName);
             admin.setAdminPassword(password);
             // 查找用户名和密码都匹配的管理员
-            List<Admin> list = adminServices.selectAll(admin, null);
+            List<Admin> list = adminService.selectAll(admin, null);
             if (list.size() == 1) {
                 HttpSession session = request.getSession();
                 // 获取到查询出的admin对象，随后往会话中设置属性
@@ -90,7 +90,7 @@ public class LoginController {
             user.setUserName(userName);
             user.setUserPassword(password);
             // 查找用户名和密码都匹配的用户
-            List<User> list = userServices.selectAll(user, null);
+            List<User> list = userService.selectAll(user, null);
             if (list.size() == 1) {
                 HttpSession session = request.getSession();
                 // 获取到查询出的user对象，随后往会话中设置属性
@@ -105,7 +105,7 @@ public class LoginController {
             LogLogin logLogin = new LogLogin();
             logLogin.setLoginName(userName);
             logLogin.setLoginIp(ip);
-            Integer updates = logLoginServices.insertLogLogin(logLogin);
+            Integer updates = logLoginService.insertLogLogin(logLogin);
             if (updates != 1) {
                 System.out.println("插入登录日志失败！");
             }
@@ -128,7 +128,6 @@ public class LoginController {
     public Map<String, Object> getLoginAdmin(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CharacterEncoding.setEncoding(request,response,"UTF-8");
         HttpSession session = request.getSession();
-        Map<String, Object> map = null;
         if (data.equals(adminMainStr)) {
             // 如果请求的页面是管理员页
             Admin admin = (Admin) session.getAttribute("admin");

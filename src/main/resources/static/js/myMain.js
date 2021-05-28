@@ -1,7 +1,8 @@
 let Id = null;
 let Name = null;
-let Page = "adminMain";
+let Page = null;
 $(document).ready(function () {
+    Page = $('body')[0].id;
     $.ajax({
         type: "POST",
         url: "getLoginStatus",
@@ -14,7 +15,13 @@ $(document).ready(function () {
             if (msg != null && msg["code"] === 0) {
                 Id = msg["Id"];
                 Name = msg["Name"];
-                $('#adminName')[0].innerText = Name;
+                if (Page==="adminMain"){
+                    $('#adminId')[0].innerText = Id;
+                    $('#adminName')[0].innerText = Name;
+                }else if(Page==="userMain"){
+                    $('#userId')[0].innerText = Id;
+                    $('#userTrueName')[0].innerText = Name;
+                }
             }
         }
     });
