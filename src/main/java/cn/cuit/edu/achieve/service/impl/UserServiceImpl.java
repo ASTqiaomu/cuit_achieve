@@ -2,6 +2,7 @@ package cn.cuit.edu.achieve.service.impl;
 
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
+import cn.cuit.edu.achieve.bean.UserVO;
 import cn.cuit.edu.achieve.dao.UserDao;
 import cn.cuit.edu.achieve.service.UserService;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer update(User user) {
         return userDao.update(user);
+    }
+
+    @Override
+    public List<UserVO> selectUserAndCollege(User user, PageBean pageBean) {
+        return userDao.selectUserAndCollege(user, pageBean);
     }
 }

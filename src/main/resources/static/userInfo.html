@@ -19,34 +19,31 @@ $(document).ready(function () {
 });
 
 function getUrl(){
-	url = "getUserById?userId="+Id;
+	url = "getUsers?userId="+Id;
 	return url;
 }
 	function saveUser(){
+		url = "updateUserInfo?userId="+Id;
 		$("#fm").form("submit",{
 			url:url,
 			onSubmit:function(){
 				return $(this).form("validate");
 			},
-			success:function(result){
-			
-				var s=result;
-				var result = eval('(' + result + ')');
-			
-				if(result.errorMsg){
-					$.messager.alert("系统提示",result.errorMsg);
-					return;
-				}else{
+			success:function(res){
+				let result = eval('(' + res + ')');
+				if(result){
 					$.messager.alert("系统提示","保存成功");
-					resetValue();
 					$("#dlg").dialog("close");
 					$("#dg").datagrid("reload");
+				}else{
+					$.messager.alert("系统提示","保存失败");
 				}
 			}
 		});
 	}
 	
 	function resetValue(){
+		$("#fm").form("reset");
 	}
 	
 	function closeUserDialog(){
@@ -55,15 +52,14 @@ function getUrl(){
 	}
 	
 	function openUserModifyDialog(){
-		var selectedRows=$("#dg").datagrid('getSelections');
-		if(selectedRows.length!=1){
+		let selectedRows=$("#dg").datagrid('getSelections');
+		if(selectedRows.length!==1){
 			$.messager.alert("系统提示","请选择一条要编辑的数据！");
 			return;
 		}
-		var row=selectedRows[0];
+		let row=selectedRows[0];
 		$("#dlg").dialog("open").dialog("setTitle","编辑个人信息");
 		$("#fm").form("load",row);
-		url="../addUser?userId="+row.userId;
 	}
 </script>
 </head>
@@ -75,11 +71,12 @@ function getUrl(){
 			<tr>
 				<th field="cb" checkbox="true"></th>
 				<th field="userId" width="10" hidden="true">编号</th>
-				<th field="userName" width="20">用户名</th>
-				<th field="userTrueName" width="20">姓名</th>
+				<th field="userName" width="10">用户名</th>
+				<th field="userTrueName" width="10">姓名</th>
 				<th field="userScore" width="10">绩效分</th>
 				<th field="userSex" width="10">性别</th>
-				<th field="userPhone" width="40">电话</th>
+				<th field="userPhone" width="20">电话</th>
+				<th field="collegeName" width="20">学院</th>
 			</tr>
 		</thead>
 	</table>
@@ -96,19 +93,17 @@ function getUrl(){
 			<table cellspacing="5px;">
 				<tr>
 					<td>姓名：</td>
-					<td><input type="text" name="userXingming" id="userXingming" class="easyui-validatebox" required="true"/></td>
-					<td>年龄：</td>
-					<td><input type="text" name="userAge" id="userAge" class="easyui-validatebox" required="true"/></td>
+					<td><input type="text" name="userTrueName" id="userTrueName" class="easyui-validatebox" required="true"/></td>
+					<td>电话：</td>
+					<td><input type="text" name="userPhone" id="userPhone" class="easyui-validatebox" required="true"/></td>
 				</tr>
 				<tr>
 					<td>性别：</td>
 					<td><select class="easyui-combobox" id="userSex" name="userSex" editable="false" panelHeight="auto" style="width: 155px">
-					    <option value="">请选择...</option>
-						<option value="0">男</option>
-						<option value="1">女</option>
+						<option value="">请选择...</option>
+						<option value="0">女</option>
+						<option value="1">男</option>
 					</select></td>
-					<td>电话：</td>
-					<td><input type="text" name="userPhone" id="userPhone" class="easyui-validatebox" required="true"/></td>
 				</tr>
 			</table>
 		</form>

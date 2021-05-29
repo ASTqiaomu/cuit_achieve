@@ -2,6 +2,7 @@ package cn.cuit.edu.achieve.service;
 
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
+import cn.cuit.edu.achieve.bean.UserVO;
 
 import java.util.List;
 
@@ -32,4 +33,15 @@ public interface UserService {
      * @return java.lang.Integer
      */
     Integer update(User user);
+
+    /**
+     * 多表模糊查询，连接t_user和t_college，模糊查找支持用户名和真实姓名
+     * @method selectUserAndCollege
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/29 10:50
+     * @param user cn.cuit.edu.achieve.bean.User
+     * @param pageBean cn.cuit.edu.achieve.bean.PageBean
+     * @return java.util.List<cn.cuit.edu.achieve.bean.User>
+     */
+    List<UserVO> selectUserAndCollege(User user, PageBean pageBean);
 }

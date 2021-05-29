@@ -11,6 +11,18 @@
         <result column="userPhone" property="userPhone" jdbcType="NVARCHAR" />
         <result column="collegeId" property="collegeId" jdbcType="INTEGER" />
     </resultMap>
+    <resultMap id="userAndCollegeResultMap" type="cn.cuit.edu.achieve.bean.UserVO">
+        <id column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="userName" property="userName" jdbcType="NVARCHAR" />
+        <result column="userPassword" property="userPassword" jdbcType="NVARCHAR" />
+        <result column="userTrueName" property="userTrueName" jdbcType="NVARCHAR" />
+        <result column="userScore" property="userScore" jdbcType="INTEGER" />
+        <result column="userSex" property="userSex" jdbcType="NVARCHAR" />
+        <result column="userPhone" property="userPhone" jdbcType="NVARCHAR" />
+        <result column="collegeId" property="collegeId" jdbcType="INTEGER" />
+        <result column="collegeName" property="collegeName" jdbcType="NVARCHAR" />
+        <result column="collegeDesc" property="collegeDesc" jdbcType="NVARCHAR" />
+    </resultMap>
     <select id="selectAll" resultMap="userResultMap">
         select * from t_user
         <where>
@@ -38,6 +50,36 @@
                 </if>
                 <if test="user.collegeId!=null and user.collegeId!=''">
                     and collegeId = #{user.collegeId}
+                </if>
+            </if>
+        </where>
+        order by userId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
+    </select>
+    <select id="selectUserAndCollege" resultMap="userAndCollegeResultMap">
+        select u.*,c.collegeName,c.collegeDesc
+        from t_user u join t_college c
+        on u.collegeId=c.collegeId
+        <where>
+            <if test="user!=null">
+                <if test="user.userId!=null and user.userId!=''">
+                    and userId = #{user.userId}
+                </if>
+                <if test="user.userName!=null and user.userName!=''">
+                    and userName like concat('%',#{user.userName},'%')
+                </if>
+                <if test="user.userTrueName!=null and user.userTrueName!=''">
+                    and userTrueName like concat('%',#{user.userTrueName},'%')
+                </if>
+                <if test="user.userSex!=null and user.userSex!=''">
+                    and userSex = #{user.userSex}
+                </if>
+                <if test="user.collegeId!=null and user.collegeId!=''">
+                    and u.collegeId = #{user.collegeId}
                 </if>
             </if>
         </where>

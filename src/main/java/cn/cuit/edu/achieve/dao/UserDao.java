@@ -2,6 +2,7 @@ package cn.cuit.edu.achieve.dao;
 
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
+import cn.cuit.edu.achieve.bean.UserVO;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -43,4 +44,15 @@ public interface UserDao {
         "collegeId = #{collegeId} " +
         "where userId = #{userId}")
     Integer update(User user);
+
+    /**
+     * user多表模糊查询，见src/main/resources/mapper/UserMapper.xml
+     * @method selectUserAndCollege
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/29 10:18
+     * @param user cn.cuit.edu.achieve.bean.User
+     * @param pageBean cn.cuit.edu.achieve.bean.PageBean
+     * @return java.util.List<cn.cuit.edu.achieve.bean.UserVO>
+     */
+    List<UserVO> selectUserAndCollege(User user, PageBean pageBean);
 }
