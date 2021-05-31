@@ -8,7 +8,7 @@ USE db_cuit_achievement;
 DROP TABLE IF EXISTS t_admin;
 CREATE TABLE t_admin (
     adminId INT AUTO_INCREMENT PRIMARY KEY,
-    adminName NVARCHAR(16) NOT NULL,
+    adminName NVARCHAR(16) NOT NULL UNIQUE,
     adminPassword NVARCHAR(16) NOT NULL,
     -- 权限等级，可选(0,1,2)，0最高
     adminLevel INT NOT NULL
@@ -69,7 +69,7 @@ CREATE TABLE t_log_login (
     loginName NVARCHAR(16) NOT NULL,
     loginIp NVARCHAR(16) NOT NULL,
     loginDate DATETIME DEFAULT NOW()
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO t_log_login VALUES (1, 'admin', '127.0.0.1', '2021-05-19 17:39:35');
 
@@ -104,7 +104,7 @@ CREATE TABLE t_result (
     -- 成果状态，0提交，1通过，2拒绝
     resStatus INT NOT NULL CHECK(resStatus IN (0,1,2)),
     typeId INT REFERENCES t_result_type(typeId),
-    typeName NVARCHAR(32)	REFERENCES t_result_type(typeName),
+    typeName NVARCHAR(32) REFERENCES t_result_type(typeName),
     -- 成果图片
     resImg NVARCHAR(256) DEFAULT NULL,
     -- 成果材料

@@ -39,6 +39,10 @@ public class UserController {
      */
     final String FEMALE = "0";
     final String MAN = "1";
+    final String adminMainStr = "adminMain";
+    final String userMainStr = "userMain";
+    final String adminStr = "admin";
+    final String userStr = "user";
 
     /**
      * 查找用户，根据传入的Id、用户名、真实姓名、性别和学院Id
@@ -54,14 +58,17 @@ public class UserController {
     @ResponseBody
     public void getUsers(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         setEncoding(request,response,"UTF-8");
-        Integer userId = Integer.parseInt(request.getParameter("userId"));
+        String type = request.getParameter("type");
+        Integer userId = null;
+        if (userMainStr.equals(type)){
+            userId = Integer.parseInt(request.getParameter("userId"));
+        }
         Integer page = Integer.parseInt(request.getParameter("page"));
         Integer rows = Integer.parseInt(request.getParameter("rows"));
         User user = new User();
         user.setUserId(userId);
         PageBean pageBean = new PageBean(page, rows);
         List<UserVO> list = userService.selectUserAndCollege(user,pageBean);
-        System.out.println(list);
         JSONArray jsonArray = (JSONArray) JSON.toJSON(list);
         JSONObject result = new JSONObject();
         result.put("rows", jsonArray);
@@ -116,6 +123,7 @@ public class UserController {
     public boolean updateUserInfo(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         setEncoding(request,response,"UTF-8");
         boolean updateSuccess = false;
+        String type = request.getParameter("type");
         Integer userId = Integer.parseInt(request.getParameter("userId"));
         String userTrueName = request.getParameter("userTrueName");
         String userPhone = request.getParameter("userPhone");
@@ -128,21 +136,149 @@ public class UserController {
             // 当前端未选择性别时，设置为null值，方便后续处理
             userSex = null;
         }
-        // 获取session中的user对象
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        if (user.getUserId().equals(userId)){
+        User user = new User();
+        user.setUserId(userId);
+        List<User> list = userService.selectAll(user,null);
+        if (list.size()==1){
+            user = list.get(0);
             user.setUserTrueName(userTrueName);
             user.setUserPhone(userPhone);
             if (userSex!=null){
                 user.setUserSex(userSex);
             }
+            // 如果是管理员，可编辑的信息会多出绩效分和学院
+            if (adminMainStr.equals(type)){
+                Integer userScore = Integer.parseInt(request.getParameter("userScore"));
+                Integer collegeId = Integer.parseInt(request.getParameter("collegeId"));
+                user.setUserScore(userScore);
+                user.setCollegeId(collegeId);
+            }
             if (userService.update(user)==1){
-                //如果修改数据库行数为1，则修改成功，往session中设置新的user对象
+                // 如果修改数据库行数为1，则修改成功
                 updateSuccess = true;
-                session.setAttribute("user",user);
+                // 如果是用户发起的修改，则往session中设置新的user对象
+                if (userMainStr.equals(type)){
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user",user);
+                }
             }
         }
         return updateSuccess;
+    }
+
+    /**
+     * 检查用户名是否存在
+     * @method hasUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:19
+     * @param data java.lang.String
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return boolean
+     */
+    @RequestMapping("/haveUser")
+    @ResponseBody
+    public boolean haveUser(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        setEncoding(request, response, "UTF-8");
+        HashMap<String,Object> map = JsonToHashMap.getHashMap(data);
+        String userName = map.get("userName").toString();
+        User user = new User();
+        user.setUserName(userName);
+        List<User> list = userService.selectAll(user, null);
+        return list.size() != 0;
+    }
+
+    /**
+     * 添加用户
+     * @method addUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:20
+     * @param data java.lang.String
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return boolean
+     */
+    @RequestMapping("/addUser")
+    @ResponseBody
+    public boolean addUser(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        setEncoding(request,response,"UTF-8");
+        boolean addSuccess = false;
+        String userName = request.getParameter("userName");
+        String userPassword = "123456";
+        String userTrueName = request.getParameter("userTrueName");
+        String userPhone = request.getParameter("userPhone");
+        Integer userScore = Integer.parseInt(request.getParameter("userScore"));
+        Integer collegeId = Integer.parseInt(request.getParameter("collegeId"));
+        String userSex = request.getParameter("userSex");
+        if (FEMALE.equals(userSex)){
+            userSex = "女";
+        }else if (MAN.equals(userSex)){
+            userSex = "男";
+        }else {
+            // 当前端未选择性别时，设置为null值，方便后续处理
+            userSex = null;
+        }
+        User user = new User();
+        user.setUserName(userName);
+        user.setUserPassword(userPassword);
+        user.setUserTrueName(userTrueName);
+        user.setUserPhone(userPhone);
+        user.setUserScore(userScore);
+        user.setCollegeId(collegeId);
+        user.setUserSex(userSex);
+        Integer updates = userService.insertUser(user);
+        if (updates==1){
+            // 新增一行数据代表插入成功
+            addSuccess = true;
+        }
+        return addSuccess;
+    }
+
+    /**
+     * 重置用户密码
+     * @method resetUserPassword
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:21
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return void
+     */
+    @RequestMapping("/resetUserPassword")
+    @ResponseBody
+    public void resetUserPassword(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        JSONObject result = new JSONObject();
+        String ids = request.getParameter("ids");
+        String[] str = ids.split(",");
+        Integer num = 0;
+        for (String s : str) {
+            num += userService.resetUserPassword(Integer.parseInt(s));
+        }
+        result.put("success", "true");
+        result.put("num", num);
+        Response.write(response, result);
+    }
+
+    /**
+     * 删除用户
+     * @method deleteUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:22
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return void
+     */
+    @RequestMapping("/deleteUser")
+    @ResponseBody
+    public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        JSONObject result = new JSONObject();
+        String ids = request.getParameter("ids");
+        String[] str = ids.split(",");
+        Integer num = 0;
+        for (String s : str) {
+            num += userService.deleteUser(Integer.parseInt(s));
+        }
+        result.put("success", "true");
+        result.put("num", num);
+        Response.write(response, result);
     }
 }

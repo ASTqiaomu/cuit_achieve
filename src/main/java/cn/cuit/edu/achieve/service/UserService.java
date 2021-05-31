@@ -44,4 +44,34 @@ public interface UserService {
      * @return java.util.List<cn.cuit.edu.achieve.bean.User>
      */
     List<UserVO> selectUserAndCollege(User user, PageBean pageBean);
+
+    /**
+     * 新增用户
+     * @method insertUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 19:44
+     * @param user cn.cuit.edu.achieve.bean.User
+     * @return java.lang.Integer
+     */
+    Integer insertUser(User user);
+
+    /**
+     * 重置用户密码为123456
+     * @method resetUserPassword
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:07
+     * @param userId java.lang.Integer
+     * @return java.lang.Integer
+     */
+    Integer resetUserPassword(Integer userId);
+
+    /**
+     * 删除用户
+     * @method deleteUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:17
+     * @param userId java.lang.Integer
+     * @return java.lang.Integer
+     */
+    Integer deleteUser(Integer userId);
 }

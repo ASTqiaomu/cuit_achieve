@@ -37,4 +37,19 @@ public class UserServiceImpl implements UserService {
     public List<UserVO> selectUserAndCollege(User user, PageBean pageBean) {
         return userDao.selectUserAndCollege(user, pageBean);
     }
+
+    @Override
+    public Integer insertUser(User user) {
+        return userDao.insertUser(user);
+    }
+
+    @Override
+    public Integer resetUserPassword(Integer userId) {
+        return userDao.resetUserPassword(userId);
+    }
+
+    @Override
+    public Integer deleteUser(Integer userId) {
+        return userDao.deleteUser(userId);
+    }
 }

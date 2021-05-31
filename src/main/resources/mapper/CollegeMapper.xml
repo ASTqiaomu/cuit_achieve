@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cuit.edu.achieve.dao.CollegeDao">
+    <resultMap id="collegeResultMap" type="cn.cuit.edu.achieve.bean.College">
+        <id column="collegeId" property="collegeId" jdbcType="INTEGER" />
+        <result column="collegeName" property="collegeName" jdbcType="NVARCHAR" />
+        <result column="collegeDesc" property="collegeDesc" jdbcType="NVARCHAR" />
+    </resultMap>
+    <select id="selectAll" resultMap="collegeResultMap">
+        select * from t_college
+        <where>
+            <if test="college!=null">
+                <if test="college.collegeId!=null and college.collegeId!=''">
+                    and collegeId = #{college.collegeId}
+                </if>
+                <if test="college.collegeName!=null and college.collegeName!=''">
+                    and collegeName = #{college.collegeName}
+                </if>
+                <if test="college.collegeDesc!=null and college.collegeDesc!=''">
+                    and collegeDesc = #{college.collegeDesc}
+                </if>
+            </if>
+        </where>
+        order by collegeId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
+    </select>
+</mapper>

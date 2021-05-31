@@ -3,6 +3,8 @@ package cn.cuit.edu.achieve.dao;
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
 import cn.cuit.edu.achieve.bean.UserVO;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -55,4 +57,41 @@ public interface UserDao {
      * @return java.util.List<cn.cuit.edu.achieve.bean.UserVO>
      */
     List<UserVO> selectUserAndCollege(User user, PageBean pageBean);
+
+    /**
+     * 新增用户
+     * @method insertUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 18:41
+     * @param user cn.cuit.edu.achieve.bean.User
+     * @return java.lang.Integer
+     */
+    @Insert("insert into t_user(userName,userPassword," +
+        "userTrueName,userScore,userSex,userPhone,collegeId) " +
+        "values(#{userName},#{userPassword}," +
+        "#{userTrueName},#{userScore},#{userSex}," +
+        "#{userPhone},#{collegeId})")
+    Integer insertUser(User user);
+
+    /**
+     * 重置用户密码为123456
+     * @method resetUserPassword
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:06
+     * @param userId java.lang.Integer
+     * @return java.lang.Integer
+     */
+    @Update("update t_user set userPassword='123456' where userId=#{userId}")
+    Integer resetUserPassword(Integer userId);
+
+    /**
+     * 删除用户
+     * @method deleteUser
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/5/31 20:18
+     * @param userId java.lang.Integer
+     * @return java.lang.Integer
+     */
+    @Delete("delete from t_user where userId=#{userId}")
+    Integer deleteUser(Integer userId);
 }
