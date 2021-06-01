@@ -49,17 +49,13 @@
                         <dd><a id="changePw" href="changePw.html">修改密码</a></dd>
                     </dl>
                 </li>
-                <%for(int i = 0; i < jcbiaotis.size(); i++){ %>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
+                    <a href="">
                         <i class="layui-icon">&#xe857;</i>
-                        <em><%=jcbiaotis.get(i).getJcbiaotiName() %></em>
+                        <em>成果类型</em>
                     </a>
                     <dl class="layui-nav-child">
-                        <%for(int j = 0; j < jcdaohangslist.get(i).size(); j++){ %>
-                        <dd><a href="<%=basePath%>user/<%=jcdaohangslist.get(i).get(j).getJcdaohangNeirong() %>"><%=jcdaohangslist.get(i).get(j).getJcdaohangName()
-                            %></a></dd>
-                        <%} %>
+                        <dd><a href="resultTypeInfo.html">成果类型</a></dd>
                     </dl>
                 </li>
                 <%} %>

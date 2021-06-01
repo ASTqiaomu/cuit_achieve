@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cuit.edu.achieve.dao.ResultTypeDao">
+    <resultMap id="resultTypeResultMap" type="cn.cuit.edu.achieve.bean.ResultType">
+        <id column="typeId" property="typeId" jdbcType="INTEGER" />
+        <result column="typeName" property="typeName" jdbcType="NVARCHAR" />
+        <result column="typeDesc" property="typeDesc" jdbcType="NVARCHAR" />
+        <result column="typeScore" property="typeScore" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectAll" resultMap="resultTypeResultMap">
+        select * from t_result_type
+        <where>
+            <if test="resultType!=null">
+                <if test="resultType.typeId!=null and resultType.typeId!=''">
+                    and typeId = #{resultType.typeId}
+                </if>
+                <if test="resultType.typeName!=null and resultType.typeName!=''">
+                    and typeName like concat('%',#{resultType.typeName},'%')
+                </if>
+                <if test="resultType.typeDesc!=null and resultType.typeDesc!=''">
+                    and typeDesc = #{resultType.typeDesc}
+                </if>
+                <if test="resultType.typeScore!=null and resultType.typeScore!=''">
+                    and typeScore = #{resultType.typeScore}
+                </if>
+            </if>
+        </where>
+        order by typeId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
+    </select>
+</mapper>
