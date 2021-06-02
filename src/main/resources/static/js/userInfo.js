@@ -119,6 +119,7 @@ function openUserModifyDialog() {
         return;
     }
     let row = selectedRows[0];
+    $("#userName")[0].disabled = true;
     $("#dlg").dialog("open").dialog("setTitle", "编辑" + getTitle());
     $("#fm").form("load", row);
     url = "updateUserInfo?type=" + Page + "&userId=" + row.userId;

@@ -50,7 +50,7 @@ public class AdminController {
         if (admin.getAdminPassword().equals(oldPassword)){
             admin.setAdminPassword(newPassword);
             if (adminService.update(admin)==1){
-                //如果修改数据库行数为1，则修改成功，往session中设置新的admin对象
+                // 如果修改数据库行数为1，则修改成功，往session中设置新的admin对象
                 changeSuccess = true;
                 session.setAttribute("admin",admin);
             }

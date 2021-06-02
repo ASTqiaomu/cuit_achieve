@@ -115,7 +115,7 @@ public class LoginController {
 
     /**
      * 获取登录的管理员或用户
-     * @method getLoginAdmin
+     * @method getLoginStatus
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/5/23 0:04
      * @param data java.lang.String

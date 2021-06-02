@@ -1,56 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>成果类型</title>
-<link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css">
-<link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css">
-<script src="jquery-easyui-1.3.3/jquery.min.js"></script>
-<script src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
-<script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
-<script>
-let url;
-	function searchResultType(){
-		$('#dg').datagrid('load',{
-			typeName:$('#s_typeName').val()
-		});
-	}
-</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>成果类型</title>
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css">
+    <script src="jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/resultTypeInfo.js"></script>
 </head>
 <body style="margin: 5px;">
-	<table id="dg" title="成果类型" class="easyui-datagrid" fitColumns="true"
-	 pagination="true" url="getResultType" fit="true" rownumbers="true" toolbar="#tb">
-		<thead>
-			<tr>
-				<th field="cb" checkbox="true"></th>
-				<th field="typeId" width="10" hidden="true">编号</th>
-				<th field="typeName" width="10">名称</th>
-				<th field="typeScore" width="10">绩效分</th>
-				<th field="typeDesc" width="40">描述</th>
-			</tr>
-		</thead>
-	</table>
-	
-	<div id="tb">
-		<div>
-		<label for="s_typeName">&nbsp;名称：&nbsp;</label><input type="text" name="s_typeName" id="s_typeName" size="10"/>
-		<a href="javascript:searchResultType()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
-		</div>
-	</div>
-	<div id="dlg" class="easyui-dialog" style="width: 300px;height: 160px;padding: 10px 20px"
-		closed="true" buttons="#dlg-buttons">
-		<form id="fm" method="post">
-			<table cellspacing="5px;">
-				<tr>
-					<td><label for="sjleixingName">名称：</label></td>
-					<td><input type="text" name="sjleixingName" id="sjleixingName" class="easyui-validatebox" required="true"/></td>
-				</tr>
-				<tr>
-					<td><label for="sjleixingMark">描述：</label></td>
-					<td><input type="text" name="sjleixingMark" id="sjleixingMark" class="easyui-validatebox"/></td>
-				</tr>
-			</table>
-		</form>
-	</div>
+<table id="dg" title="成果类型" class="easyui-datagrid" fitColumns="true"
+       pagination="true" url="getResultType" fit="true" rownumbers="true" toolbar="#tb">
+    <thead>
+    <tr>
+        <th field="cb" checkbox="true"></th>
+        <th field="typeId" width="10" hidden="true">编号</th>
+        <th field="typeName" width="10">名称</th>
+        <th field="typeScore" width="10">绩效分</th>
+        <th field="typeDesc" width="40">描述</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <div>
+        <a href="javascript:openResultTypeAddDialog()" id="addIcon" class="easyui-linkbutton" iconCls="icon-add"
+           plain="true">添加</a>
+        <a href="javascript:openResultTypeModifyDialog()" id="editIcon" class="easyui-linkbutton" iconCls="icon-edit"
+           plain="true">修改</a>
+        <a href="javascript:deleteResultType()" id="delIcon" class="easyui-linkbutton" iconCls="icon-remove"
+           plain="true">删除</a>
+    </div>
+    <div>
+        <label for="s_typeName">&nbsp;名称：&nbsp;</label><input type="text" name="s_typeName" id="s_typeName" size="10"/>
+        <a href="javascript:searchResultType()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
+    </div>
+</div>
+<div id="dlg" class="easyui-dialog" style="width: 540px;height: 200px;padding: 10px 20px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post">
+        <table cellspacing="5px;">
+            <tr>
+                <td><label for="typeName">名称：</label></td>
+                <td><input type="text" name="typeName" id="typeName" class="easyui-validatebox" disabled/></td>
+                <td><label for="typeScore">绩效分：</label></td>
+                <td><input type="number" min="1" value="1" name="typeScore" id="typeScore" class="easyui-validatebox"
+                           required="true"/></td>
+            </tr>
+            <tr>
+                <td><label for="typeDesc">描述：</label></td>
+                <td><textarea type="text" name="typeDesc" id="typeDesc" class="easyui-validatebox"
+                              style="width: 170px;height: 60px;resize: none;"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:saveResultType()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="javascript:closeResultTypeDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+</div>
 </body>
 </html>

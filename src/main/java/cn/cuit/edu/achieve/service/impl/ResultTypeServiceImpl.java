@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * ResultType业务层接口实现
- *
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
  * @class ResultTypeServiceImpl
  * @date 2021/6/1 16:06
@@ -26,5 +25,20 @@ public class ResultTypeServiceImpl implements ResultTypeService {
     @Override
     public List<ResultType> selectAll(ResultType resultType, PageBean pageBean) {
         return resultTypeDao.selectAll(resultType,pageBean);
+    }
+
+    @Override
+    public Integer insertResultType(ResultType resultType) {
+        return resultTypeDao.insertResultType(resultType);
+    }
+
+    @Override
+    public Integer updateResultType(ResultType resultType) {
+        return resultTypeDao.updateResultType(resultType);
+    }
+
+    @Override
+    public Integer deleteResultType(Integer typeId) {
+        return resultTypeDao.deleteResultType(typeId);
     }
 }

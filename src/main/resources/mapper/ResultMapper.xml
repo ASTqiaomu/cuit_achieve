@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cuit.edu.achieve.dao.ResultDao">
+    <resultMap id="resultResultMap" type="cn.cuit.edu.achieve.bean.Result">
+        <id column="resId" property="resId" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="resName" property="resName" jdbcType="NVARCHAR" />
+        <result column="resDesc" property="resDesc" jdbcType="NVARCHAR" />
+        <result column="resDate" property="resDate" jdbcType="TIMESTAMP" />
+        <result column="resStatus" property="resStatus" jdbcType="INTEGER" />
+        <result column="typeId" property="typeId" jdbcType="NVARCHAR" />
+        <result column="typeName" property="typeName" jdbcType="NVARCHAR" />
+        <result column="resImg" property="resImg" jdbcType="NVARCHAR" />
+        <result column="resFile" property="resFile" jdbcType="NVARCHAR" />
+    </resultMap>
+    <select id="selectAll" resultMap="resultResultMap">
+        select * from t_result
+        <where>
+            <if test="result!=null">
+                <if test="result.resId!=null and result.resId!=''">
+                    and resId = #{result.resId}
+                </if>
+                <if test="result.userId!=null and result.userId!=''">
+                    and userId  = #{result.userId}
+                </if>
+                <if test="result.resName!=null and result.resName!=''">
+                    and resName like concat('%',#{result.resName},'%')
+                </if>
+                <if test="result.resDesc!=null and result.resDesc!=''">
+                    and resDesc like concat('%',#{result.resDesc},'%')
+                </if>
+                <if test="result.resDate!=null and result.resDate!=''">
+                    and resDate = #{result.resDate}
+                </if>
+                <if test="result.resStatus!=null and result.resStatus!=''">
+                    and resStatus = #{result.resStatus}
+                </if>
+                <if test="result.typeId!=null and result.typeId!=''">
+                    and typeId = #{result.typeId}
+                </if>
+                <if test="result.typeName!=null and result.typeName!=''">
+                    and typeName = #{result.typeName}
+                </if>
+            </if>
+        </where>
+        order by resId
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
+    </select>
+</mapper>
