@@ -23,7 +23,6 @@ import static cn.cuit.edu.achieve.util.CharacterEncoding.setEncoding;
 
 /**
  * ResultType控制层
- *
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
  * @class ResultTypeController
  * @date 2021/6/1 16:07
@@ -36,42 +35,57 @@ public class ResultTypeController {
     @Resource
     ResultService resultService;
 
+    final String comboboxStr = "combobox";
+
     /**
      * 获取成果类型
      * @method getResultType
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/6/1 16:45
-     * @param data java.lang.String
      * @param request javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return void
      */
     @RequestMapping("/getResultType")
     @ResponseBody
-    public void getResultType(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void getResultType(HttpServletRequest request, HttpServletResponse response) throws Exception {
         CharacterEncoding.setEncoding(request, response, "UTF-8");
         String type = request.getParameter("type");
+        System.out.println("type:"+type);
         String typeName = request.getParameter("typeName");
         PageBean pageBean = null;
-        Integer page = Integer.parseInt(request.getParameter("page"));
-        Integer rows = Integer.parseInt(request.getParameter("rows"));
-        pageBean = new PageBean(page, rows);
-        List<ResultType> list = null;
-        Integer total = null;
-        if (!"".equals(typeName)){
-            ResultType resultType = new ResultType();
-            resultType.setTypeName(typeName);
-            list = resultTypeService.selectAll(resultType, pageBean);
-            total = resultTypeService.selectAll(resultType, null).size();
-        }else {
-            list = resultTypeService.selectAll(null, pageBean);
-            total = resultTypeService.selectAll(null, null).size();
+        List<ResultType> list;
+        int total;
+        if (!comboboxStr.equals(type)){
+            Integer page = Integer.parseInt(request.getParameter("page"));
+            Integer rows = Integer.parseInt(request.getParameter("rows"));
+            pageBean = new PageBean(page, rows);
         }
-        JSONArray jsonArray = (JSONArray) JSON.toJSON(list);
-        JSONObject result = new JSONObject();
-        result.put("rows", jsonArray);
-        result.put("total", total);
-        Response.write(response, result);
+        if (comboboxStr.equals(type)) {
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("typeId", "");
+            jsonObject.put("typeName", "请选择...");
+            jsonArray.add(jsonObject);
+            // 往json数组中添加刚刚的json对象，以及查出的成果类型名称和Id
+            jsonArray.addAll(resultTypeService.selectAll(null, null));
+            Response.write(response, jsonArray);
+        }else {
+            if (!"".equals(typeName)){
+                ResultType resultType = new ResultType();
+                resultType.setTypeName(typeName);
+                list = resultTypeService.selectAll(resultType, pageBean);
+                total = resultTypeService.selectAll(resultType, null).size();
+            }else {
+                list = resultTypeService.selectAll(null, pageBean);
+                total = resultTypeService.selectAll(null, null).size();
+            }
+            JSONArray jsonArray = (JSONArray) JSON.toJSON(list);
+            JSONObject result = new JSONObject();
+            result.put("rows", jsonArray);
+            result.put("total", total);
+            Response.write(response, result);
+        }
     }
 
     /**

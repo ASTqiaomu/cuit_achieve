@@ -2,6 +2,7 @@ package cn.cuit.edu.achieve.dao;
 
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.Result;
+import org.apache.ibatis.annotations.Insert;
 
 import java.util.List;
 
@@ -22,4 +23,18 @@ public interface ResultDao {
      * @return java.util.List<cn.cuit.edu.achieve.bean.Result>
      */
     List<Result> selectAll(Result result, PageBean pageBean);
+
+    /**
+     * 新增结果
+     * @method insertResult
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/2 23:08
+     * @param result cn.cuit.edu.achieve.bean.Result
+     * @return java.lang.Integer
+     */
+    @Insert("insert into t_result(userId,userTrueName," +
+        "collegeName,resName,resDesc,resStatus,typeId,typeName) " +
+        "values(#{userId},#{userTrueName},#{collegeName},#{resName}," +
+        "#{resDesc},#{resStatus},#{typeId},#{typeName})")
+    Integer insertResult(Result result);
 }

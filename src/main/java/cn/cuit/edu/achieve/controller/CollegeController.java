@@ -19,7 +19,6 @@ import java.util.List;
 
 /**
  * 学院控制层
- *
  * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
  * @class CollegeController
  * @date 2021/5/30 14:59

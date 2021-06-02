@@ -26,4 +26,9 @@ public class ResultServiceImpl implements ResultService {
     public List<Result> selectAll(Result result, PageBean pageBean) {
         return resultDao.selectAll(result, pageBean);
     }
+
+    @Override
+    public Integer insertResult(Result result) {
+        return resultDao.insertResult(result);
+    }
 }

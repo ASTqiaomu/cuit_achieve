@@ -4,13 +4,14 @@
     <resultMap id="resultResultMap" type="cn.cuit.edu.achieve.bean.Result">
         <id column="resId" property="resId" jdbcType="INTEGER" />
         <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="userTrueName" property="userTrueName" jdbcType="NVARCHAR" />
+        <result column="collegeName" property="collegeName" jdbcType="NVARCHAR" />
         <result column="resName" property="resName" jdbcType="NVARCHAR" />
         <result column="resDesc" property="resDesc" jdbcType="NVARCHAR" />
         <result column="resDate" property="resDate" jdbcType="TIMESTAMP" />
         <result column="resStatus" property="resStatus" jdbcType="INTEGER" />
         <result column="typeId" property="typeId" jdbcType="NVARCHAR" />
         <result column="typeName" property="typeName" jdbcType="NVARCHAR" />
-        <result column="resImg" property="resImg" jdbcType="NVARCHAR" />
         <result column="resFile" property="resFile" jdbcType="NVARCHAR" />
     </resultMap>
     <select id="selectAll" resultMap="resultResultMap">
@@ -23,14 +24,17 @@
                 <if test="result.userId!=null and result.userId!=''">
                     and userId  = #{result.userId}
                 </if>
+                <if test="result.userTrueName!=null and result.userTrueName!=''">
+                    and userTrueName like concat('%',#{result.userTrueName},'%')
+                </if>
+                <if test="result.collegeName!=null and result.collegeName!=''">
+                    and collegeName = #{result.collegeName}
+                </if>
                 <if test="result.resName!=null and result.resName!=''">
                     and resName like concat('%',#{result.resName},'%')
                 </if>
                 <if test="result.resDesc!=null and result.resDesc!=''">
                     and resDesc like concat('%',#{result.resDesc},'%')
-                </if>
-                <if test="result.resDate!=null and result.resDate!=''">
-                    and resDate = #{result.resDate}
                 </if>
                 <if test="result.resStatus!=null and result.resStatus!=''">
                     and resStatus = #{result.resStatus}
