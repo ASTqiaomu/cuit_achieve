@@ -32,4 +32,34 @@ public interface ResultService {
      * @return java.lang.Integer
      */
     Integer insertResult(Result result);
+
+    /**
+     * 更新结果信息
+     * @method updateResult
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/3 10:21
+     * @param result cn.cuit.edu.achieve.bean.Result
+     * @return java.lang.Integer
+     */
+    Integer updateResult(Result result);
+
+    /**
+     * 删除成果
+     * @method deleteResult
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/3 10:47
+     * @param resId java.lang.Integer
+     * @return java.lang.Integer
+     */
+    Integer deleteResult(Integer resId);
+
+    /**
+     * 更新成果文件
+     * @method updateResFile
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/3 13:22
+     * @param result cn.cuit.edu.achieve.bean.Result
+     * @return java.lang.Integer
+     */
+    Integer updateResFile(Result result);
 }

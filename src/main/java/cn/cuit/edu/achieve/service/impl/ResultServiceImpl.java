@@ -31,4 +31,19 @@ public class ResultServiceImpl implements ResultService {
     public Integer insertResult(Result result) {
         return resultDao.insertResult(result);
     }
+
+    @Override
+    public Integer updateResult(Result result) {
+        return resultDao.updateResult(result);
+    }
+
+    @Override
+    public Integer deleteResult(Integer resId) {
+        return resultDao.deleteResult(resId);
+    }
+
+    @Override
+    public Integer updateResFile(Result result) {
+        return resultDao.updateResFile(result);
+    }
 }

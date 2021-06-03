@@ -44,6 +44,9 @@ public class Result {
      * @return java.lang.String
      */
     public String getResDate(){
+        if (this.resDate==null){
+            return null;
+        }
         DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dFormat.format(this.resDate);
     }

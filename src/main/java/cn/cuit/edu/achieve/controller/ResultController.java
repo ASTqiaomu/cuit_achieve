@@ -38,10 +38,11 @@ public class ResultController {
 
     final String adminMainStr = "adminMain";
     final String userMainStr = "userMain";
+    final String addStr = "add";
+    final String updateStr = "update";
 
     /**
      * 获取成果类型
-     *
      * @param data     java.lang.String
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
@@ -81,57 +82,105 @@ public class ResultController {
         }
     }
 
+    /**
+     * 添加或者更新成果信息
+     * @param request  javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return boolean
+     * @method addResult
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/3 9:51
+     */
     @RequestMapping("/addResult")
     @ResponseBody
     public boolean addResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        boolean addSuccess = false;
+        boolean success = false;
         CharacterEncoding.setEncoding(request, response, "UTF-8");
         String type = request.getParameter("type");
         String resName = request.getParameter("resName");
         String resDesc = request.getParameter("resDesc");
         String typeId = request.getParameter("typeId");
         Integer userId = Integer.parseInt(request.getParameter("userId"));
-        System.out.println("userId:"+userId);
         Result res = new Result();
-        // 封装申请人
-        res.setUserId(userId);
-        // 获取用户真实姓名并封装
-        User user = new User();
-        user.setUserId(userId);
-        List<User> list = userService.selectAll(user, null);
-        user = list.get(0);
-        res.setUserTrueName(user.getUserTrueName());
-        // 封装成果类型Id
-        if (!"".equals(typeId)) {
-            res.setTypeId(Integer.parseInt(typeId));
-        }
-        // 获取成果类型名并封装
-        ResultType resultType = new ResultType();
-        resultType.setTypeId(Integer.parseInt(typeId));
-        List<ResultType> list1 = resultTypeService.selectAll(resultType, null);
-        resultType = list1.get(0);
-        res.setTypeName(resultType.getTypeName());
-        // 封装成果名称
-        if (!"".equals(resName)) {
+        if (addStr.equals(type)) {
+            // 封装申请人
+            res.setUserId(userId);
+            // 获取用户真实姓名并封装
+            User user = new User();
+            user.setUserId(userId);
+            List<User> list = userService.selectAll(user, null);
+            user = list.get(0);
+            res.setUserTrueName(user.getUserTrueName());
+            // 封装成果类型Id
+            if (!"".equals(typeId)) {
+                res.setTypeId(Integer.parseInt(typeId));
+            }
+            // 获取成果类型名并封装
+            ResultType resultType = new ResultType();
+            resultType.setTypeId(Integer.parseInt(typeId));
+            List<ResultType> list1 = resultTypeService.selectAll(resultType, null);
+            resultType = list1.get(0);
+            res.setTypeName(resultType.getTypeName());
+            // 封装成果名称
+            if (!"".equals(resName)) {
+                res.setResName(resName);
+            }
+            // 封装成果说明
+            if (!"".equals(resDesc)) {
+                res.setResDesc(resDesc);
+            }
+            // 获取用户所属学院并封装
+            Integer collegeId = user.getCollegeId();
+            College college = new College();
+            college.setCollegeId(collegeId);
+            List<College> list2 = collegeService.selectAll(college, null);
+            college = list2.get(0);
+            res.setCollegeName(college.getCollegeName());
+            // 封装成果状态，0为申请
+            res.setResStatus(0);
+            if (resultService.insertResult(res) == 1) {
+                success = true;
+            }
+        } else {
+            Integer resId = Integer.parseInt(request.getParameter("resId"));
+            res.setResId(resId);
             res.setResName(resName);
-        }
-        // 封装成果说明
-        if (!"".equals(resDesc)) {
             res.setResDesc(resDesc);
+            res.setTypeId(Integer.parseInt(typeId));
+            ResultType resultType = new ResultType();
+            resultType.setTypeId(Integer.parseInt(typeId));
+            List<ResultType> list = resultTypeService.selectAll(resultType, null);
+            resultType = list.get(0);
+            res.setTypeName(resultType.getTypeName());
+            Integer update = resultService.updateResult(res);
+            if (update == 1) {
+                success = true;
+            }
         }
-        // 获取用户所属学院并封装
-        Integer collegeId = user.getCollegeId();
-        College college = new College();
-        college.setCollegeId(collegeId);
-        List<College> list2 = collegeService.selectAll(college, null);
-        college = list2.get(0);
-        res.setCollegeName(college.getCollegeName());
-        // 封装成果状态，0为申请
-        res.setResStatus(0);
-        if (resultService.insertResult(res) == 1) {
-            addSuccess = true;
+        return success;
+    }
+
+    /**
+     * 删除成果
+     * @method deleteResult
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/3 12:22
+     * @param request javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return void
+     */
+    @RequestMapping("/deleteResult")
+    @ResponseBody
+    public void deleteResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        JSONObject result = new JSONObject();
+        String ids = request.getParameter("ids");
+        String[] str = ids.split(",");
+        Integer num = 0;
+        for (String s : str) {
+            num += resultService.deleteResult(Integer.parseInt(s));
         }
-        System.out.println("addSuccess:"+addSuccess);
-        return addSuccess;
+        result.put("success", "true");
+        result.put("num", num);
+        Response.write(response, result);
     }
 }
