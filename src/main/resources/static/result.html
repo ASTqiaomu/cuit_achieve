@@ -17,15 +17,19 @@
 
 	$(document).ready(function () {
 		Page = parent.$('body')[0].id;
-		// 非管理员访问时，隐藏部分页面元素
 		if (Page === "userMain") {
-			// $("#adminTr")[0].remove();
-			// $("#addIcon")[0].remove();
-			// $("#delIcon")[0].remove();
-			// $("#resetIcon")[0].remove();
+			// 普通用户访问时，移除部分页面元素
+			$("#verifyIcon")[0].remove();
+			$("#label_s_userId")[0].remove();
+			$("#s_userId").combobox("destroy");
 			// 获取父页存储的用户ID，随后更改数据的请求地址
 			Id = parent.$('#userId')[0].innerText;
 		} else if (Page === "adminMain") {
+			// 管理员访问时，移除部分页面元素
+			$("#addIcon")[0].remove();
+			$("#editIcon")[0].remove();
+			$("#delIcon")[0].remove();
+			$("#uploadIcon")[0].remove();
 			Id = parent.$('#adminId')[0].innerText;
 		}
 		$("#dg").datagrid("options").url = getUrl();
@@ -41,10 +45,18 @@
 	}
 
 	function searchResult(){
-		$('#dg').datagrid('load',{
-			resName:$('#s_resName').val(),
-			typeId:$('#s_typeId').combobox("getValue")
-		});
+		if (Page==="userMain"){
+			$('#dg').datagrid('load',{
+				resName:$('#s_resName').val(),
+				typeId:$('#s_typeId').combobox("getValue")
+			});
+		}else if(Page==="adminMain"){
+			$('#dg').datagrid('load',{
+				resName:$('#s_resName').val(),
+				typeId:$('#s_typeId').combobox("getValue"),
+				userId:$('#s_userId').combobox("getValue")
+			});
+		}
 	}
 
 	function openResultAddDialog(){
@@ -211,6 +223,7 @@
 				<th field="resId" width="10" hidden="true">编号</th>
 				<th field="typeId" width="20" hidden="true">成果类型编号</th>
 				<th field="typeName" width="20">成果类型</th>
+				<th field="typeScore" width="10">绩效分</th>
 				<th field="resName" width="40">名称</th>
 				<th field="resDesc" width="80">说明</th>
 				<th field="resFile" width="20" formatter="formatResFile">成果</th>
@@ -228,6 +241,7 @@
 			<a href="javascript:openResultModifyDialog()" id="editIcon" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
 			<a href="javascript:deleteResult()" id="delIcon" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
 			<a href="javascript:uploadResult()" id="uploadIcon" class="easyui-linkbutton" iconCls="icon-add" plain="true">上传成果</a>
+			<a href="javascript:openVerifyDialog()" id="verifyIcon" class="easyui-linkbutton" iconCls="icon-edit" plain="true">审核</a>
 		</div>
 		<div>
 			<label for="s_resName">&nbsp;名称：&nbsp;</label>
@@ -240,6 +254,14 @@
 				   valueField:'typeId',
 				   textField:'typeName',
 				   url:'getResultType?type=combobox'"/>
+			<label for="s_userId" id="label_s_userId">&nbsp;老师：&nbsp;</label>
+			<input class="easyui-combobox" id="s_userId" name="s_userId"
+				   data-options="
+				   panelHeight:'auto',
+				   editable:false,
+				   valueField:'userId',
+				   textField:'userTrueName',
+				   url:'getUsers?type=combobox'"/>
 		<a href="javascript:searchResult()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
 		</div>
 	</div>

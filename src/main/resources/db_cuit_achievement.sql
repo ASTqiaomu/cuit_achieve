@@ -107,15 +107,16 @@ CREATE TABLE t_result (
     resStatus INT NOT NULL CHECK(resStatus IN (0,1,2)),
     typeId INT REFERENCES t_result_type(typeId),
     typeName NVARCHAR(32) REFERENCES t_result_type(typeName),
+    typeScore INT REFERENCES t_result_type(typeScore),
     -- 成果文件
     resFile NVARCHAR(256) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO t_result VALUES (1, 1, '张三', '计算机学院', '智能气象收集与分析系统', '基于大数据的智能气象收集与分析系统', '2020-01-06 10:43:16', 1, 1, '科研项目', null);
-INSERT INTO t_result VALUES (2, 2, '冰冰', '外国语学院', 'C语言程序设计1A', '教学班：自动化202', '2020-02-04 17:28:40', 1, 2, '课程授课', null);
-INSERT INTO t_result VALUES (3, 2, '冰冰', '外国语学院', 'C语言程序设计1A', '教学班：自动化202', '2020-06-12 20:03:52', 1, 3, '授课全勤', null);
-INSERT INTO t_result VALUES (4, 3, '李四', '电子工程学院', '2017级计算机学院辅导员', '任职2017级计算机学院辅导员', '2021-03-06 14:02:03', 1, 4, '任职辅导员', null);
-INSERT INTO t_result VALUES (5, 4, '老王', '控制工程学院', '指导XXX完成毕设', '指导2017012345完成毕业设计', '2021-04-22 16:44:01', 0, 8, '毕业设计指导', null);
+INSERT INTO t_result VALUES (1, 1, '张三', '计算机学院', '智能气象收集与分析系统', '基于大数据的智能气象收集与分析系统', '2020-01-06 10:43:16', 1, 1, '科研项目', 6, null);
+INSERT INTO t_result VALUES (2, 2, '冰冰', '外国语学院', 'C语言程序设计1A', '教学班：自动化202', '2020-02-04 17:28:40', 1, 2, '课程授课', 1, null);
+INSERT INTO t_result VALUES (3, 2, '冰冰', '外国语学院', 'C语言程序设计1A', '教学班：自动化202', '2020-06-12 20:03:52', 1, 3, '授课全勤', 1, null);
+INSERT INTO t_result VALUES (4, 3, '李四', '电子工程学院', '2017级计算机学院辅导员', '任职2017级计算机学院辅导员', '2021-03-06 14:02:03', 1, 4, '任职辅导员', 4, null);
+INSERT INTO t_result VALUES (5, 4, '老王', '控制工程学院', '指导XXX完成毕设', '指导2017012345完成毕业设计', '2021-04-22 16:44:01', 0, 8, '毕业设计指导', 2, null);
 
 DROP TABLE IF EXISTS t_log_verify;
 CREATE TABLE t_log_verify (

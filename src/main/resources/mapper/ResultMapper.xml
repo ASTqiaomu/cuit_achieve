@@ -12,6 +12,7 @@
         <result column="resStatus" property="resStatus" jdbcType="INTEGER" />
         <result column="typeId" property="typeId" jdbcType="NVARCHAR" />
         <result column="typeName" property="typeName" jdbcType="NVARCHAR" />
+        <result column="typeScore" property="typeScore" jdbcType="INTEGER" />
         <result column="resFile" property="resFile" jdbcType="NVARCHAR" />
     </resultMap>
     <select id="selectAll" resultMap="resultResultMap">

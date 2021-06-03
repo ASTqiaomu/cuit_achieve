@@ -2,6 +2,7 @@ let url = null;
 let Id = null;
 let Page = null;
 let title = null;
+let type = null;
 
 $(document).ready(function () {
     Page = parent.$('body')[0].id;
@@ -52,32 +53,31 @@ function saveUser() {
                     return false;
                 }
             }
-            let exist = true;
-            let userName = $('#userName')[0].value;
-            if (userName === "") {
-                $.messager.alert("系统提示", "用户名不能为空");
-                return false;
-            } else {
-                let data = {userName: userName};
-                // ajax去服务器端校验，判断用户名是否存在
-                $.ajax({
-                    type: "POST",
-                    url: "haveUser",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(data),
-                    async: false,
-                    success: function (msg) {
-                        if (msg === true) {
-                            $.messager.alert("系统提示", "用户名已存在");
-                            exist = true;
-                        }else if (msg === false){
-                            exist = false;
+            if (type==="add"){
+                let userName = $('#userName')[0].value;
+                if (userName === "") {
+                    $.messager.alert("系统提示", "用户名不能为空");
+                    return false;
+                } else {
+                    let data = {userName: userName};
+                    // ajax去服务器端校验，判断用户名是否存在
+                    $.ajax({
+                        type: "POST",
+                        url: "haveUser",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(data),
+                        async: false,
+                        success: function (msg) {
+                            if (msg === true) {
+                                $.messager.alert("系统提示", "用户名已存在");
+                                return false;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
-            return !exist;
+            return true;
         },
         success: function (res) {
             // res只会返回字符串的true或false，不是布尔类型的true和false
@@ -123,6 +123,7 @@ function openUserModifyDialog() {
     $("#dlg").dialog("open").dialog("setTitle", "编辑" + getTitle());
     $("#fm").form("load", row);
     url = "updateUserInfo?type=" + Page + "&userId=" + row.userId;
+    type = "update";
 }
 
 function openUserAddDialog() {
@@ -130,6 +131,7 @@ function openUserAddDialog() {
     $("#userName")[0].disabled = false;
     $("#dlg").dialog("open").dialog("setTitle", "添加" + getTitle());
     url = "addUser";
+    type = "add";
 }
 
 function resetPassword() {

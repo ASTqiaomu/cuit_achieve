@@ -51,7 +51,6 @@ public class ResultTypeController {
     public void getResultType(HttpServletRequest request, HttpServletResponse response) throws Exception {
         CharacterEncoding.setEncoding(request, response, "UTF-8");
         String type = request.getParameter("type");
-        System.out.println("type:"+type);
         String typeName = request.getParameter("typeName");
         PageBean pageBean = null;
         List<ResultType> list;

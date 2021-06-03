@@ -43,7 +43,6 @@ public class ResultController {
 
     /**
      * 获取成果类型
-     * @param data     java.lang.String
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return void
@@ -53,33 +52,32 @@ public class ResultController {
      */
     @RequestMapping("/getResult")
     @ResponseBody
-    public void getResult(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void getResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
         CharacterEncoding.setEncoding(request, response, "UTF-8");
-        String type = request.getParameter("type");
         Integer page = Integer.parseInt(request.getParameter("page"));
         Integer rows = Integer.parseInt(request.getParameter("rows"));
         PageBean pageBean = new PageBean(page, rows);
         String resName = request.getParameter("resName");
         String typeId = request.getParameter("typeId");
-        if (type.equals(userMainStr)) {
-            Integer userId = Integer.parseInt(request.getParameter("userId"));
-            Result res = new Result();
-            res.setUserId(userId);
-            if (!"".equals(resName)) {
-                res.setResName(resName);
-            }
-            if (typeId != null && !"".equals(typeId)) {
-                res.setTypeId(Integer.parseInt(typeId));
-            }
-            List<Result> list = resultService.selectAll(res, pageBean);
-            List<Result> listAll = resultService.selectAll(res, null);
-            Integer total = listAll.size();
-            JSONArray jsonArray = (JSONArray) JSON.toJSON(list);
-            JSONObject result = new JSONObject();
-            result.put("rows", jsonArray);
-            result.put("total", total);
-            Response.write(response, result);
+        String userId = request.getParameter("userId");
+        Result res = new Result();
+        if (!"".equals(userId) && userId!=null){
+            res.setUserId(Integer.parseInt(userId));
         }
+        if (!"".equals(resName)) {
+            res.setResName(resName);
+        }
+        if (typeId != null && !"".equals(typeId)) {
+            res.setTypeId(Integer.parseInt(typeId));
+        }
+        List<Result> list = resultService.selectAll(res, pageBean);
+        List<Result> listAll = resultService.selectAll(res, null);
+        Integer total = listAll.size();
+        JSONArray jsonArray = (JSONArray) JSON.toJSON(list);
+        JSONObject result = new JSONObject();
+        result.put("rows", jsonArray);
+        result.put("total", total);
+        Response.write(response, result);
     }
 
     /**

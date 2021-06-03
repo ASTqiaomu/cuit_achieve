@@ -33,6 +33,7 @@ public class Result {
     Integer resStatus;
     Integer typeId;
     String typeName;
+    String typeScore;
     /**成果文件*/
     String resFile;
 
