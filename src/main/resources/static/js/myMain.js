@@ -1,6 +1,7 @@
 let Id = null;
 let Name = null;
 let Page = null;
+
 $(document).ready(function () {
     Page = $('body')[0].id;
     $.ajax({
@@ -15,10 +16,10 @@ $(document).ready(function () {
             if (msg != null && msg["code"] === 0) {
                 Id = msg["Id"];
                 Name = msg["Name"];
-                if (Page==="adminMain"){
+                if (Page === "adminMain") {
                     $('#adminId')[0].innerText = Id;
                     $('#adminName')[0].innerText = Name;
-                }else if(Page==="userMain"){
+                } else if (Page === "userMain") {
                     $('#userId')[0].innerText = Id;
                     $('#userTrueName')[0].innerText = Name;
                 }
@@ -45,6 +46,6 @@ function logout() {
     });
 }
 
-function rmCls(){
+function rmCls() {
     $("#dd_rmCls").removeClass("layui-this");
 }

@@ -37,7 +37,7 @@
                 <if test="result.resDesc!=null and result.resDesc!=''">
                     and resDesc like concat('%',#{result.resDesc},'%')
                 </if>
-                <if test="result.resStatus!=null and result.resStatus!=''">
+                <if test="result.resStatus==0 or result.resStatus!=null and result.resStatus!=''">
                     and resStatus = #{result.resStatus}
                 </if>
                 <if test="result.typeId!=null and result.typeId!=''">

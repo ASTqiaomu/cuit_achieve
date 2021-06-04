@@ -5,9 +5,9 @@ let url = null;
 
 window.onload = function () {
     Page = parent.$('body')[0].id;
-    if (Page==="adminMain"){
+    if (Page === "adminMain") {
         url = "adminChangePw";
-    }else if (Page==="userMain"){
+    } else if (Page === "userMain") {
         url = "userChangePw";
     }
     element_oldPassword = $("#oldPassword");

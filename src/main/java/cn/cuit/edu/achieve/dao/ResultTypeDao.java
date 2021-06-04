@@ -45,7 +45,7 @@ public interface ResultTypeDao {
      * @param resultType cn.cuit.edu.achieve.bean.ResultType
      * @return java.lang.Integer
      */
-    @Update("update t_result_type set" +
+    @Update("update t_result_type set " +
         "typeDesc=#{typeDesc},typeScore=#{typeScore} " +
         "where typeId=#{typeId}")
     Integer updateResultType(ResultType resultType);

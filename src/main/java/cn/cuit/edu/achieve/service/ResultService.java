@@ -62,4 +62,25 @@ public interface ResultService {
      * @return java.lang.Integer
      */
     Integer updateResFile(Result result);
+
+    /**
+     * 更新成果审核状态
+     * @method updateResultStatus
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/4 14:52
+     * @param result cn.cuit.edu.achieve.bean.Result
+     * @return java.lang.Integer
+     */
+    Integer updateResultStatus(Result result);
+
+    /**
+     * 普通用户改新名字时，成果表中的申请人会不匹配，所以需要更新
+     * @method updateUserTrueName
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/4 15:40
+     * @param oldName java.lang.String
+     * @param newName java.lang.String
+     * @return java.lang.Integer
+     */
+    Integer updateUserTrueName(String oldName,String newName);
 }

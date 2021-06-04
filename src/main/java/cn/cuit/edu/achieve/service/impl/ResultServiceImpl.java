@@ -46,4 +46,14 @@ public class ResultServiceImpl implements ResultService {
     public Integer updateResFile(Result result) {
         return resultDao.updateResFile(result);
     }
+
+    @Override
+    public Integer updateResultStatus(Result result) {
+        return resultDao.updateResultStatus(result);
+    }
+
+    @Override
+    public Integer updateUserTrueName(String oldName, String newName) {
+        return resultDao.updateUserTrueName(oldName, newName);
+    }
 }

@@ -1,59 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>登录日志</title>
-<link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css">
-<link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css">
-<script src="jquery-easyui-1.3.3/jquery.min.js"></script>
-<script src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
-<script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
-<script>
-	function deleteRizhi(){
-		let selectedRows=$("#dg").datagrid('getSelections');
-		if(selectedRows.length===0){
-			$.messager.alert("系统提示","请选择要删除的数据！");
-			return;
-		}
-		let strIds=[];
-		for(let i=0;i<selectedRows.length;i++){
-			strIds.push(selectedRows[i].logId);
-		}
-		let ids=strIds.join(",");
-		//输出选择的行
-		$.messager.confirm("系统提示","您确认要删掉这<span style='color:red'>"+selectedRows.length+"</span>条数据吗？",function(r){
-			if(r){
-				$.post("deleteLogLogin",{delIds:ids},function(result){
-					if(result.success){
-						$.messager.alert("系统提示","您已成功删除<span style='color:red'>"+result.delNums+"</span>条数据！");
-						$("#dg").datagrid("reload");
-					}else{
-						$.messager.alert('系统提示','删除失败');
-					}
-				},"json");
-			}
-		});
-	}
-</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>登录日志</title>
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css">
+    <script src="jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/logLogin.js"></script>
 </head>
 <body style="margin: 5px;">
-	<table id="dg" title="日志信息" class="easyui-datagrid" fitColumns="true"
-		pagination="true" url="getLogLogin" fit="true" rownumbers="true" toolbar="#tb">
-		<thead>
-			<tr>
-				<th field="cb" checkbox="true"></th>
-				<th field="logId" width="10" hidden="true">日志编号</th>
-				<th field="loginName" width="50">用户名</th>
-				<th field="loginIp" width="50">IP</th>
-				<th field="loginDate" width="50">登录时间</th>
-			</tr>
-		</thead>
-	</table>
-	
-	<div id="tb">
-		<div>
-			<a href="javascript:deleteRizhi()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">删除</a>
-		</div>
-	</div>
+<table id="dg" title="日志信息" class="easyui-datagrid" fitColumns="true"
+       pagination="true" url="getLogLogin" fit="true" rownumbers="true" toolbar="#tb">
+    <thead>
+    <tr>
+        <th field="cb" checkbox="true"></th>
+        <th field="logId" width="10" hidden="true">日志编号</th>
+        <th field="loginName" width="50">用户名</th>
+        <th field="loginIp" width="50">IP</th>
+        <th field="loginDate" width="50">登录时间</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <div>
+        <a href="javascript:deleteLogLogin()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">删除</a>
+    </div>
+</div>
 </body>
 </html>

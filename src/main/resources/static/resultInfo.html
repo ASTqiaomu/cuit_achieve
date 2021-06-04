@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>科研成果</title>
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css">
+    <script src="jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/resultInfo.js"></script>
+</head>
+<body style="margin: 5px;">
+<table id="dg" title="成果信息" class="easyui-datagrid" fitColumns="true"
+       pagination="true" fit="true" rownumbers="true" toolbar="#tb">
+    <thead>
+    <tr>
+        <th field="cb" checkbox="true"></th>
+        <th field="resId" width="10" hidden="true">编号</th>
+        <th field="typeId" width="20" hidden="true">成果类型编号</th>
+        <th field="typeName" width="20">成果类型</th>
+        <th field="typeScore" width="10">绩效分</th>
+        <th field="resName" width="40">名称</th>
+        <th field="resDesc" width="80">说明</th>
+        <th field="resFile" width="20" formatter="formatResFile">成果</th>
+        <th field="userId" width="20" hidden="true">用户编号</th>
+        <th field="userTrueName" width="20">申请人</th>
+        <th field="collegeName" width="20">所在学院</th>
+        <th field="resStatus" width="10" formatter="formatResStatus">状态</th>
+        <th field="resDate" width="20">申请时间</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <div>
+        <a href="javascript:openResultAddDialog()" id="addIcon" class="easyui-linkbutton" iconCls="icon-add"
+           plain="true">添加</a>
+        <a href="javascript:openResultModifyDialog()" id="editIcon" class="easyui-linkbutton" iconCls="icon-edit"
+           plain="true">修改</a>
+        <a href="javascript:deleteResult()" id="delIcon" class="easyui-linkbutton" iconCls="icon-remove"
+           plain="true">删除</a>
+        <a href="javascript:uploadResult()" id="uploadIcon" class="easyui-linkbutton" iconCls="icon-add" plain="true">上传成果</a>
+        <a href="javascript:openVerifyDialog()" id="verifyIcon" class="easyui-linkbutton" iconCls="icon-edit"
+           plain="true">审核</a>
+    </div>
+    <div>
+        <label for="s_resName">&nbsp;名称：&nbsp;</label>
+        <input type="text" name="s_resName" id="s_resName" size="10"/>
+        <label for="s_typeId">&nbsp;成果类型：&nbsp;</label>
+        <input class="easyui-combobox" id="s_typeId" name="s_typeId"
+               data-options="
+				   panelHeight:'auto',
+				   editable:false,
+				   valueField:'typeId',
+				   textField:'typeName',
+				   url:'getResultType?type=combobox'"/>
+        <label for="s_userId" id="label_s_userId">&nbsp;老师：&nbsp;</label>
+        <input class="easyui-combobox" id="s_userId" name="s_userId"
+               data-options="
+				   panelHeight:'auto',
+				   editable:false,
+				   valueField:'userId',
+				   textField:'userTrueName',
+				   url:'getUsers?type=combobox'"/>
+        <label for="s_resStatus" id="label_s_resStatus">&nbsp;状态：&nbsp;</label>
+        <input class="easyui-combobox" id="s_resStatus" name="s_resStatus"
+               data-options="
+				   	panelHeight:'auto',
+				   	editable:false,
+				   	valueField:'resStatus',
+				   	textField:'resStatusText',
+					data: [{
+						resStatus: '',
+						resStatusText: '请选择...'
+					},{
+						resStatus: '0',
+						resStatusText: '申请'
+					},{
+						resStatus: '1',
+						resStatusText: '通过'
+					},{
+						resStatus: '2',
+						resStatusText: '拒绝'}]"/>
+        <a href="javascript:searchResult()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
+    </div>
+</div>
+<div id="dlg" class="easyui-dialog" style="width: 550px;height: 210px;padding: 10px 20px"
+     closed="true" buttons="#dlg-buttons" data-options="
+        onClose:function(){$('#fm').form('reset');}">
+    <form id="fm" method="post">
+        <table cellspacing="5px;">
+            <tr>
+                <td><label for="resName">名称：</label></td>
+                <td><input type="text" name="resName" id="resName" class="easyui-validatebox" required="true"/></td>
+                <td><label for="typeId">成果类型：</label></td>
+                <td><input class="easyui-combobox" id="typeId" name="typeId"
+                           data-options="
+								panelHeight:'auto',
+								editable:false,
+								valueField:'typeId',
+								textField:'typeName',
+								url:'getResultType?type=combobox'"/></td>
+            </tr>
+            <tr>
+                <td><label for="resDesc">说明：</label></td>
+                <td><textarea type="text" name="resDesc" id="resDesc" class="easyui-validatebox"
+                              style="width: 170px;height: 60px;resize: none;"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:saveResult()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="javascript:closeResultDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+</div>
+<div id="upload" class="easyui-dialog" style="width: 320px;height: 140px;padding: 10px 20px"
+     closed="true" buttons="#upload-buttons">
+    <form id="uploadFm" method="post" enctype="multipart/form-data">
+        <table cellspacing="5px;">
+            <tr>
+                <td><input type="file" name="uploadFile" id="uploadFile" class="easyui-validatebox"
+                           required="true"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="upload-buttons">
+    <a href="javascript:saveUploadResult()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="javascript:closeUploadResult()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+</div>
+<div id="dlgVerify" class="easyui-dialog" style="width: 570px;height: 250px;padding: 10px 20px"
+     closed="true" buttons="#dlgVerify-buttons">
+    <form id="verifyFm" method="post">
+        <table cellspacing="5px;">
+            <tr>
+                <td><label for="resName_verify">成果名称：</label></td>
+                <td><input type="text" name="resName_verify" id="resName_verify" class="easyui-validatebox" readonly/>
+                </td>
+                <td><label for="resDesc_verify">成果说明：</label></td>
+                <td><textarea type="text" name="resDesc_verify" id="resDesc_verify" class="easyui-validatebox"
+                              style="width: 170px;height: 60px;resize: none;" readonly></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="resStatus" id="label_resStatus">&nbsp;审核状态：&nbsp;</label></td>
+                <td><input class="easyui-combobox" id="resStatus" name="resStatus"
+                           data-options="
+				   	panelHeight:'auto',
+				   	editable:false,
+				   	valueField:'resStatus',
+				   	textField:'resStatusText',
+					data: [{
+						resStatus: '',
+						resStatusText: '请选择...'
+					},{
+						resStatus: '1',
+						resStatusText: '通过'
+					},{
+						resStatus: '2',
+						resStatusText: '拒绝'}]"/></td>
+                <td><label for="verifyDesc">审核说明：</label></td>
+                <td><textarea type="text" name="verifyDesc" id="verifyDesc" class="easyui-validatebox"
+                              style="width: 170px;height: 60px;resize: none;"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlgVerify-buttons">
+    <a href="javascript:saveVerify()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="javascript:closeVerifyDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+</div>
+</body>
+</html>

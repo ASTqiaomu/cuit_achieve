@@ -94,10 +94,9 @@ function openResultTypeModifyDialog() {
     $("#typeName")[0].disabled = true;
     $("#dlg").dialog("open").dialog("setTitle", "编辑成果类型");
     $("#fm").form("load", row);
-    url = "updateResultType?typeId" + row.typeId;
+    url = "updateResultType?typeId=" + row.typeId;
     type = "update";
 }
-
 
 function deleteResultType() {
     let selectedRows = $("#dg").datagrid('getSelections');

@@ -21,24 +21,24 @@ import java.util.Date;
 @Component
 public class Result {
     Integer resId;
-    /**提交人*/
+    /**申请人*/
     Integer userId;
     String userTrueName;
     String collegeName;
     String resName;
     String resDesc;
-    /**成果提交日期*/
+    /**成果申请日期*/
     Date resDate;
-    /**成果状态，0为提交，1为通过，2为拒绝*/
+    /**成果状态，0为申请，1为通过，2为拒绝*/
     Integer resStatus;
     Integer typeId;
     String typeName;
-    String typeScore;
+    Integer typeScore;
     /**成果文件*/
     String resFile;
 
     /**
-     * 获取成果提交日期，指定格式为 2016-07-06 19:39:58
+     * 获取成果申请日期，指定格式为 2016-07-06 19:39:58
      * @method getLoginDate
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/6/2 16:58

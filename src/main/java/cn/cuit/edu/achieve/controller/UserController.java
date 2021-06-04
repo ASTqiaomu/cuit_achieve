@@ -3,6 +3,8 @@ package cn.cuit.edu.achieve.controller;
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
 import cn.cuit.edu.achieve.bean.UserVO;
+import cn.cuit.edu.achieve.service.LogLoginService;
+import cn.cuit.edu.achieve.service.ResultService;
 import cn.cuit.edu.achieve.service.UserService;
 import cn.cuit.edu.achieve.util.JsonToHashMap;
 import cn.cuit.edu.achieve.util.Response;
@@ -32,6 +34,10 @@ import static cn.cuit.edu.achieve.util.CharacterEncoding.setEncoding;
 public class UserController {
     @Resource
     UserService userService;
+    @Resource
+    LogLoginService logLoginService;
+    @Resource
+    ResultService resultService;
 
     HashMap<String, Object> map = null;
 
@@ -42,8 +48,6 @@ public class UserController {
     final String MAN = "1";
     final String adminMainStr = "adminMain";
     final String userMainStr = "userMain";
-    final String adminStr = "admin";
-    final String userStr = "user";
     final String comboboxStr = "combobox";
 
     /**
@@ -122,7 +126,6 @@ public class UserController {
 
     /**
      * 更新用户信息
-     *
      * @param data     java.lang.String
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
@@ -141,6 +144,7 @@ public class UserController {
         String userTrueName = request.getParameter("userTrueName");
         String userPhone = request.getParameter("userPhone");
         String userSex = request.getParameter("userSex");
+        String oldName = null;
         if (FEMALE.equals(userSex)) {
             userSex = "女";
         } else if (MAN.equals(userSex)) {
@@ -154,6 +158,7 @@ public class UserController {
         List<User> list = userService.selectAll(user, null);
         if (list.size() == 1) {
             user = list.get(0);
+            oldName = user.getUserTrueName();
             user.setUserTrueName(userTrueName);
             user.setUserPhone(userPhone);
             if (userSex != null) {
@@ -167,13 +172,18 @@ public class UserController {
                 user.setCollegeId(collegeId);
             }
             if (userService.update(user) == 1) {
-                // 如果修改数据库行数为1，则修改成功
-                updateSuccess = true;
+                // 如果修改数据库中用户表的行数为1，代表修改成功
+                // 如果修改了用户姓名，则需要同时更新成果信息中的申请人姓名
+                String newName = user.getUserTrueName();
+                if (!newName.equals(oldName)){
+                    resultService.updateUserTrueName(oldName,newName);
+                }
                 // 如果是用户发起的修改，则往session中设置新的user对象
                 if (userMainStr.equals(type)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
                 }
+                updateSuccess = true;
             }
         }
         return updateSuccess;

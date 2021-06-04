@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>审核记录</title>
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css">
+    <script src="jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/logVerifyInfo.js"></script>
+</head>
+<body style="margin: 5px;">
+<table id="dg" title="审核记录" class="easyui-datagrid" fitColumns="true"
+       pagination="true" fit="true" rownumbers="true" toolbar="#tb">
+    <thead>
+    <tr>
+        <th field="cb" checkbox="true"></th>
+        <th field="verifyId" width="10" hidden="true">编号</th>
+        <th field="resId" width="10" hidden="true">成果编号</th>
+        <th field="typeName" width="20">成果类型</th>
+        <th field="resName" width="20">名称</th>
+        <th field="userTrueName" width="10">申请人</th>
+        <th field="collegeName" width="20">所属学院</th>
+        <th field="verifyType" width="10" formatter="formatResStatus">审核状态</th>
+        <th field="verifyDesc" width="40">审核说明</th>
+        <th field="adminName" width="10" hidden="true">审核人</th>
+        <th field="verifyDate" width="20">审核日期</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <div>
+        <label for="s_typeId">&nbsp;成果类型：&nbsp;</label>
+        <input class="easyui-combobox" id="s_typeId" name="s_typeId"
+               data-options="
+				   panelHeight:'auto',
+				   editable:false,
+				   valueField:'typeId',
+				   textField:'typeName',
+				   url:'getResultType?type=combobox'"/>
+        <a href="javascript:searchLogVerify()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
+    </div>
+</div>
+</body>
+</html>

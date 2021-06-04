@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cuit.edu.achieve.dao.LogVerifyDao">
+    <resultMap id="logVerifyResultMap" type="cn.cuit.edu.achieve.bean.LogVerify">
+        <id column="verifyId" property="verifyId" jdbcType="INTEGER" />
+        <result column="resId" property="resId" jdbcType="INTEGER" />
+        <result column="verifyType" property="verifyType" jdbcType="INTEGER" />
+        <result column="verifyDesc" property="verifyDesc" jdbcType="NVARCHAR" />
+        <result column="adminId" property="adminId" jdbcType="INTEGER" />
+        <result column="verifyDate" property="verifyDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <resultMap id="logVerifyVOResultMap" type="cn.cuit.edu.achieve.bean.LogVerifyVO">
+        <id column="verifyId" property="verifyId" jdbcType="INTEGER" />
+        <result column="resId" property="resId" jdbcType="INTEGER" />
+        <result column="resName" property="resName" jdbcType="NVARCHAR" />
+        <result column="verifyType" property="verifyType" jdbcType="INTEGER" />
+        <result column="verifyDesc" property="verifyDesc" jdbcType="NVARCHAR" />
+        <result column="adminId" property="adminId" jdbcType="INTEGER" />
+        <result column="verifyDate" property="verifyDate" jdbcType="TIMESTAMP" />
+        <result column="adminName" property="adminName" jdbcType="NVARCHAR" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="userTrueName" property="userTrueName" jdbcType="NVARCHAR" />
+        <result column="collegeName" property="collegeName" jdbcType="NVARCHAR" />
+        <result column="typeId" property="typeId" jdbcType="INTEGER" />
+        <result column="typeName" property="typeName" jdbcType="NVARCHAR" />
+    </resultMap>
+    <select id="selectAll" resultMap="logVerifyResultMap">
+        select * from t_log_verify
+        <where>
+            <if test="logVerify!=null">
+                <if test="logVerify.verifyId!=null and logVerify.verifyId!=''">
+                    and verifyId = #{logVerify.verifyId}
+                </if>
+                <if test="logVerify.resId!=null and logVerify.resId!=''">
+                    and resId = #{logVerify.resId}
+                </if>
+                <if test="logVerify.verifyType!=null and logVerify.verifyType!=''">
+                    and verifyType = #{logVerify.verifyType}
+                </if>
+                <if test="logVerify.verifyDesc!=null and logVerify.verifyDesc!=''">
+                    and verifyDesc = #{logVerify.verifyDesc}
+                </if>
+                <if test="logVerify.adminId!=null and logVerify.adminId!=''">
+                    and adminId = #{logVerify.adminId}
+                </if>
+            </if>
+        </where>
+        order by verifyDate desc
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
+    </select>
+    <select id="selectUserAndCollege" resultMap="logVerifyVOResultMap">
+        select v.*,adminName,resName,userId,userTrueName,collegeName,typeId,typeName
+        from t_log_verify v join t_result r
+        on v.resId=r.resId join t_admin a
+        on v.adminId=a.adminId
+        <where>
+            <if test="logVerifyVO!=null">
+                <if test="logVerifyVO.verifyId!=null and logVerifyVO.verifyId!=''">
+                    and verifyId = #{logVerifyVO.verifyId}
+                </if>
+                <if test="logVerifyVO.resId!=null and logVerifyVO.resId!=''">
+                    and v.resId = #{logVerifyVO.resId}
+                </if>
+                <if test="logVerifyVO.verifyType!=null and logVerifyVO.verifyType!=''">
+                    and verifyType = #{logVerifyVO.verifyType}
+                </if>
+                <if test="logVerifyVO.verifyDesc!=null and logVerifyVO.verifyDesc!=''">
+                    and verifyDesc = #{logVerifyVO.verifyDesc}
+                </if>
+                <if test="logVerifyVO.adminId!=null and logVerifyVO.adminId!=''">
+                    and adminId = #{logVerifyVO.adminId}
+                </if>
+                <if test="logVerifyVO.adminName!=null and logVerifyVO.adminName!=''">
+                    and adminName = #{logVerifyVO.adminName}
+                </if>
+                <if test="logVerifyVO.userId!=null and logVerifyVO.userId!=''">
+                    and userId = #{logVerifyVO.userId}
+                </if>
+                <if test="logVerifyVO.typeId!=null and logVerifyVO.typeId!=''">
+                    and typeId = #{logVerifyVO.typeId}
+                </if>
+                <if test="logVerifyVO.typeName!=null and logVerifyVO.typeName!=''">
+                    and typeName = #{logVerifyVO.typeName}
+                </if>
+            </if>
+        </where>
+        order by verifyDate desc
+        <if test="pageBean!=null">
+            <if test="pageBean.page!=null and pageBean.page!='' and pageBean.rows!=null and pageBean.rows!=''">
+                limit ${(pageBean.page - 1) * pageBean.rows},#{pageBean.rows}
+            </if>
+        </if>
+    </select>
+</mapper>

@@ -156,11 +156,13 @@ public class ResultTypeController {
     public boolean updateResultType(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         setEncoding(request,response,"UTF-8");
         boolean updateSuccess = false;
-        Integer typeId = Integer.parseInt(request.getParameter("typeId"));
+        String typeId = request.getParameter("typeId");
         String typeDesc = request.getParameter("typeDesc");
         Integer typeScore = Integer.parseInt(request.getParameter("typeScore"));
         ResultType resultType = new ResultType();
-        resultType.setTypeId(typeId);
+        if (!"".equals(typeId) && typeId!=null){
+            resultType.setTypeId(Integer.parseInt(typeId));
+        }
         if (!"".equals(typeDesc)){
             resultType.setTypeDesc(typeDesc);
         }

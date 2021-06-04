@@ -35,9 +35,9 @@ public interface ResultDao {
      * @return java.lang.Integer
      */
     @Insert("insert into t_result(userId,userTrueName," +
-        "collegeName,resName,resDesc,resStatus,typeId,typeName) " +
+        "collegeName,resName,resDesc,resStatus,typeId,typeName,typeScore) " +
         "values(#{userId},#{userTrueName},#{collegeName},#{resName}," +
-        "#{resDesc},#{resStatus},#{typeId},#{typeName})")
+        "#{resDesc},#{resStatus},#{typeId},#{typeName},#{typeScore})")
     Integer insertResult(Result result);
 
     /**
@@ -75,4 +75,27 @@ public interface ResultDao {
      */
     @Update("update t_result set resFile=#{resFile} where resId=#{resId}")
     Integer updateResFile(Result result);
+
+    /**
+     * 更新成果审核状态
+     * @method updateResultStatus
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/4 14:51
+     * @param result cn.cuit.edu.achieve.bean.Result
+     * @return java.lang.Integer
+     */
+    @Update("update t_result set resStatus=#{resStatus} where resId=#{resId}")
+    Integer updateResultStatus(Result result);
+
+    /**
+     * 普通用户改新名字时，成果表中的申请人会不匹配，所以需要更新
+     * @method updateUserTrueName
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/4 15:37
+     * @param oldName java.lang.String
+     * @param newName java.lang.String
+     * @return java.lang.Integer
+     */
+    @Update("update t_result set userTrueName=#{newName} where userTrueName=#{oldName}")
+    Integer updateUserTrueName(String oldName,String newName);
 }

@@ -95,15 +95,15 @@ INSERT INTO t_result_type VALUES (9, '参赛指导', '指导在校学生完成�
 DROP TABLE IF EXISTS t_result;
 CREATE TABLE t_result (
     resId INT AUTO_INCREMENT PRIMARY KEY,
-    -- 提交人
+    -- 申请人
     userId INT REFERENCES t_user(userId),
     userTrueName NVARCHAR(16) NOT NULL,
     collegeName NVARCHAR(32) REFERENCES t_college(collegeName),
     resName NVARCHAR(64) NOT NULL,
     resDesc NVARCHAR(512) DEFAULT NULL,
-    -- 成果提交日期
+    -- 成果申请日期
     resDate DATETIME DEFAULT now(),
-    -- 成果状态，0提交，1通过，2拒绝
+    -- 成果状态，0申请，1通过，2拒绝
     resStatus INT NOT NULL CHECK(resStatus IN (0,1,2)),
     typeId INT REFERENCES t_result_type(typeId),
     typeName NVARCHAR(32) REFERENCES t_result_type(typeName),

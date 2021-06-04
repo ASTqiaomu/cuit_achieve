@@ -40,7 +40,7 @@ function saveUser() {
     $("#fm").form("submit", {
         url: url,
         onSubmit: function () {
-            if ($(this).form("validate")===false){
+            if ($(this).form("validate") === false) {
                 return false;
             }
             if ($('#userSex').combobox('getValue') === "") {
@@ -53,7 +53,7 @@ function saveUser() {
                     return false;
                 }
             }
-            if (type==="add"){
+            if (type === "add") {
                 let userName = $('#userName')[0].value;
                 if (userName === "") {
                     $.messager.alert("系统提示", "用户名不能为空");
