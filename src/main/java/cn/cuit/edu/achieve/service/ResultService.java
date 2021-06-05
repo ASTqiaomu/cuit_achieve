@@ -83,4 +83,16 @@ public interface ResultService {
      * @return java.lang.Integer
      */
     Integer updateUserTrueName(String oldName,String newName);
+
+    /**
+     * 时间范围查询
+     * @method selectResultByDateRange
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/4 19:18
+     * @param result cn.cuit.edu.achieve.bean.Result
+     * @param startDate java.lang.String
+     * @param endDate java.lang.String
+     * @return java.util.List<cn.cuit.edu.achieve.bean.Result>
+     */
+    List<Result> selectResultByDateRange(Result result, String startDate, String endDate);
 }

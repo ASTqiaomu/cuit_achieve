@@ -176,7 +176,10 @@ public class UserController {
                 // 如果修改了用户姓名，则需要同时更新成果信息中的申请人姓名
                 String newName = user.getUserTrueName();
                 if (!newName.equals(oldName)){
-                    resultService.updateUserTrueName(oldName,newName);
+                    int updates = resultService.updateUserTrueName(oldName,newName);
+                    if (updates==0){
+                        System.out.println("UserController:181:逻辑判断可能出错");
+                    }
                 }
                 // 如果是用户发起的修改，则往session中设置新的user对象
                 if (userMainStr.equals(type)) {

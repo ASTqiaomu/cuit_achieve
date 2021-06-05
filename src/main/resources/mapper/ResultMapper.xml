@@ -55,4 +55,27 @@
             </if>
         </if>
     </select>
+    <select id="selectResultByDateRange" resultMap="resultResultMap">
+        select * from t_result
+        <where>
+            <if test="result!=null">
+                <if test="result.resId!=null and result.resId!=''">
+                    and resId=#{result.resId}
+                </if>
+                <if test="result.typeId!=null and result.typeId!=''">
+                    and typeId=#{result.typeId}
+                </if>
+                <if test="result.userId!=null and result.userId!=''">
+                    and userId=#{result.userId}
+                </if>
+                <if test="startDate!=null and startDate!=''">
+                    and resDate &gt;= #{startDate,jdbcType=TIMESTAMP}
+                </if>
+                <if test="endDate!=null and endDate!=''">
+                    and resDate &lt;= #{endDate,jdbcType=TIMESTAMP}
+                </if>
+            </if>
+        </where>
+        order by resDate desc
+    </select>
 </mapper>

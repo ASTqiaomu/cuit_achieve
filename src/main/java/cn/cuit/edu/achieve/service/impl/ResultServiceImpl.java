@@ -56,4 +56,9 @@ public class ResultServiceImpl implements ResultService {
     public Integer updateUserTrueName(String oldName, String newName) {
         return resultDao.updateUserTrueName(oldName, newName);
     }
+
+    @Override
+    public List<Result> selectResultByDateRange(Result result, String startDate, String endDate) {
+        return resultDao.selectResultByDateRange(result,startDate,endDate);
+    }
 }

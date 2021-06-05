@@ -3,6 +3,7 @@ package cn.cuit.edu.achieve.controller;
 import cn.cuit.edu.achieve.bean.*;
 import cn.cuit.edu.achieve.service.*;
 import cn.cuit.edu.achieve.util.CharacterEncoding;
+import cn.cuit.edu.achieve.util.JsonToHashMap;
 import cn.cuit.edu.achieve.util.Response;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,6 +46,7 @@ public class ResultController {
 
     /**
      * 获取成果类型
+     *
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return void
@@ -65,13 +69,13 @@ public class ResultController {
         if (!"".equals(resName)) {
             res.setResName(resName);
         }
-        if (!"".equals(typeId) && typeId!=null) {
+        if (!"".equals(typeId) && typeId != null) {
             res.setTypeId(Integer.parseInt(typeId));
         }
-        if (!"".equals(userId) && userId!=null){
+        if (!"".equals(userId) && userId != null) {
             res.setUserId(Integer.parseInt(userId));
         }
-        if (!"".equals(resStatus) && resStatus!=null){
+        if (!"".equals(resStatus) && resStatus != null) {
             res.setResStatus(Integer.parseInt(resStatus));
         }
         List<Result> list = resultService.selectAll(res, pageBean);
@@ -86,6 +90,7 @@ public class ResultController {
 
     /**
      * 添加或者更新成果信息
+     *
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return boolean
@@ -150,7 +155,7 @@ public class ResultController {
             if (resultService.insertResult(res) == 1) {
                 success = true;
             }
-        } else if (updateStr.equals(type)){
+        } else if (updateStr.equals(type)) {
             // 更新成果信息
             res.setResId(Integer.parseInt(resId));
             res.setResName(resName);
@@ -167,29 +172,29 @@ public class ResultController {
             if (update == 1) {
                 success = true;
             }
-        }else if(verifyStr.equals(type)){
+        } else if (verifyStr.equals(type)) {
             // 审核成果信息
             LogVerify logVerify = new LogVerify();
-            if (!"".equals(resId) && resId != null){
+            if (!"".equals(resId) && resId != null) {
                 logVerify.setResId(Integer.parseInt(resId));
                 res.setResId(Integer.parseInt(resId));
             }
-            if (!"".equals(resStatus) && resStatus != null){
+            if (!"".equals(resStatus) && resStatus != null) {
                 logVerify.setVerifyType(Integer.parseInt(resStatus));
                 res.setResStatus(Integer.parseInt(resStatus));
 
             }
-            if (!"".equals(verifyDesc) && verifyDesc != null){
+            if (!"".equals(verifyDesc) && verifyDesc != null) {
                 logVerify.setVerifyDesc(verifyDesc);
             }
-            if (!"".equals(adminId) && adminId != null){
+            if (!"".equals(adminId) && adminId != null) {
                 logVerify.setAdminId(Integer.parseInt(adminId));
             }
             // 更新成果状态
             Integer updates = resultService.updateResultStatus(res);
             // 插入审核日志
             Integer updates2 = logVerifyService.insertLogVerify(logVerify);
-            if (updates==1&&updates2==1){
+            if (updates == 1 && updates2 == 1) {
                 success = true;
             }
         }
@@ -198,12 +203,12 @@ public class ResultController {
 
     /**
      * 删除成果
+     * @param request  javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return void
      * @method deleteResult
      * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
      * @date 2021/6/3 12:22
-     * @param request javax.servlet.http.HttpServletRequest
-     * @param response javax.servlet.http.HttpServletResponse
-     * @return void
      */
     @RequestMapping("/deleteResult")
     @ResponseBody
@@ -218,5 +223,68 @@ public class ResultController {
         result.put("success", "true");
         result.put("num", num);
         Response.write(response, result);
+    }
+
+    /**
+     * 提供统计图所需数据
+     * @param request  javax.servlet.http.HttpServletRequest
+     * @param response javax.servlet.http.HttpServletResponse
+     * @return void
+     * @method shujuTongji
+     * @author IceCream - 吃猫的鱼℘, 935478677@qq.com
+     * @date 2021/6/4 18:36
+     */
+    @RequestMapping("/getDisplayData")
+    @ResponseBody
+    public HashMap<String,Object> getDisplayData(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CharacterEncoding.setEncoding(request, response, "UTF-8");
+        HashMap<String,Object> map = JsonToHashMap.getHashMap(data);
+        String startDate = map.get("startDate").toString();
+        String endDate = map.get("endDate").toString();
+        String page = map.get("Page").toString();
+        String userId = null;
+        if (userMainStr.equals(page)){
+            userId = map.get("Id").toString();
+        }
+        // 获取所有的成果类型ID
+        List<Integer> typeIds = new ArrayList<>();
+        List<ResultType> resultTypes = resultTypeService.selectAll(null, null);
+        for (ResultType resultType : resultTypes) {
+            typeIds.add(resultType.getTypeId());
+        }
+        map = new HashMap<>(16);
+        Result result = new Result();
+        // 记录已通过审核的成果数量
+        int total = 0;
+        List<String> listTypeName = new ArrayList<>();
+        List<Integer> listResCounts = new ArrayList<>();
+        // 遍历所有的成果类型ID，找出对应类型下已通过审核的成果数量
+        for (Integer typeId : typeIds) {
+            if (!"".equals(userId) && userId != null) {
+                result.setUserId(Integer.parseInt(userId));
+            }
+            // 只查询审核通过的数据
+            result.setResStatus(1);
+            result.setTypeId(typeId);
+            List<Result> results = resultService.selectResultByDateRange(result, startDate, endDate);
+            // 把查出来的成果名称以及对应的成果数量封装到list中
+            if (results.size()>0){
+                listTypeName.add(results.get(0).getTypeName());
+                listResCounts.add(results.size());
+            }
+            total += results.size();
+        }
+        map.put("success","true");
+        List<List<Object>> resultList = new ArrayList<>();
+        List<Object> innerList;
+        for (int i = 0; i < total; i++) {
+            innerList = new ArrayList<>();
+            innerList.add(listTypeName.get(i));
+            innerList.add(listResCounts.get(i));
+            resultList.add(innerList);
+        }
+        map.put("total",total);
+        map.put("resultList",resultList);
+        return map;
     }
 }
