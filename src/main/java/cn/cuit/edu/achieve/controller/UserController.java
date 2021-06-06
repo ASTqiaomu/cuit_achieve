@@ -3,7 +3,6 @@ package cn.cuit.edu.achieve.controller;
 import cn.cuit.edu.achieve.bean.PageBean;
 import cn.cuit.edu.achieve.bean.User;
 import cn.cuit.edu.achieve.bean.UserVO;
-import cn.cuit.edu.achieve.service.LogLoginService;
 import cn.cuit.edu.achieve.service.ResultService;
 import cn.cuit.edu.achieve.service.UserService;
 import cn.cuit.edu.achieve.util.JsonToHashMap;
@@ -34,8 +33,6 @@ import static cn.cuit.edu.achieve.util.CharacterEncoding.setEncoding;
 public class UserController {
     @Resource
     UserService userService;
-    @Resource
-    LogLoginService logLoginService;
     @Resource
     ResultService resultService;
 
@@ -144,7 +141,7 @@ public class UserController {
         String userTrueName = request.getParameter("userTrueName");
         String userPhone = request.getParameter("userPhone");
         String userSex = request.getParameter("userSex");
-        String oldName = null;
+        String oldName;
         if (FEMALE.equals(userSex)) {
             userSex = "女";
         } else if (MAN.equals(userSex)) {
@@ -264,7 +261,6 @@ public class UserController {
 
     /**
      * 重置用户密码
-     *
      * @param request  javax.servlet.http.HttpServletRequest
      * @param response javax.servlet.http.HttpServletResponse
      * @return void

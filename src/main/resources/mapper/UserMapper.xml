@@ -31,10 +31,10 @@
                     and userId = #{user.userId}
                 </if>
                 <if test="user.userName!=null and user.userName!=''">
-                    and userName = #{user.userName}
+                    and userName = binary #{user.userName}
                 </if>
                 <if test="user.userPassword!=null and user.userPassword!=''">
-                    and userPassword = #{user.userPassword}
+                    and userPassword = binary #{user.userPassword}
                 </if>
                 <if test="user.userTrueName!=null and user.userTrueName!=''">
                     and userTrueName = #{user.userTrueName}

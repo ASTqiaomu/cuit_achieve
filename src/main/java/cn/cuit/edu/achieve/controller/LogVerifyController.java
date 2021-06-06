@@ -28,8 +28,6 @@ import java.util.List;
 public class LogVerifyController {
     @Resource
     LogVerifyService logVerifyService;
-    final String adminMainStr = "adminMain";
-    final String userMainStr = "userMain";
 
     @RequestMapping("/getLogVerify")
     @ResponseBody
